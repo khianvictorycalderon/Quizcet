@@ -12,8 +12,8 @@ const pages = {
                     flex flex-row gap-4 mt-4 w-full items-center justify-center align-center
                     [&>button]:flex-1/2 [&>button]:cursor-pointer
                     [&>button]:px-2 [&>button]:py-1
-                    md:[&>button]:px-4 md:[&>button]:py-1
-                    lg:[&>button]:px-6 [&>lg:button]:py-2
+                    md:[&>button]:px-4 md:[&>button]:py-2
+                    lg:[&>button]:px-8 lg:[&>button]:py-4
                     [&>button]:border-2 [&>button]:border-purple-600 [&>button]:rounded-lg
                     [&>button:hover]:bg-purple-600/50 [&>button]:transition [&>button]:duration-300
                     [&>button]:text-base md:[&>button]:text-md lg:[&>button]:text-lg
