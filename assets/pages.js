@@ -6,16 +6,21 @@ const pages = {
             flex flex-col items-center justify-center
             ">
             
-            <div>
+            <div class="text-center">
                 <h2 class="font-extrabold text-xl md:text-2xl lg:text-4xl">GET STARTED!</h2>
                 <div class="
-                    flex flex-row gap-4 mt-4 w-full 
-                    [&>button]:flex-1 [&>button]:cursor-pointer
-                    [&>button]:px-6 [&>button]:py-2
+                    flex flex-row gap-4 mt-4 w-full items-center justify-center align-center
+                    [&>button]:flex-1/2 [&>button]:cursor-pointer
+                    [&>button]:px-2 [&>button]:py-1
+                    md:[&>button]:px-4 md:[&>button]:py-1
+                    lg:[&>button]:px-6 [&>lg:button]:py-2
                     [&>button]:border-2 [&>button]:border-purple-600 [&>button]:rounded-lg
+                    [&>button:hover]:bg-purple-600/50 [&>button]:transition [&>button]:duration-300
+                    [&>button]:text-base md:[&>button]:text-md lg:[&>button]:text-lg
+                    [&>button]:font-semibold
                     ">
-                    <button>Ask All</button>
-                    <button>Ask</button>
+                    <button>Review All Subjects</button>
+                    <button>Review One Subject</button>
                 </div>
             </div>
 
