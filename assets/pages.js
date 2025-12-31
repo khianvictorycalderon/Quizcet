@@ -39,9 +39,14 @@ const pages = {
     settings: `
         <div class="
             px-4 md:px-8 lg:px-16 pb-4
-            min-h-screen pt-20
+            min-h-screen pt-32
             ">
-            <h2>This is Settings page</h2>
+            
+            <div>
+                <span>Set Theme: </span>
+                <button id="theme-toggle-button" onclick="toggleTheme();" class="bg-neutral-900 px-6 py-2 text-white rounded cursor-pointer">Dark</button>
+            </div>
+
         </div>
     `
 };
