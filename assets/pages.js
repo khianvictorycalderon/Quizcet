@@ -35,10 +35,34 @@ const pages = {
     subjects: `
         <div class="
             px-4 md:px-8 lg:px-16 pb-4
-            min-h-screen pt-20
+            min-h-screen pt-24
             ">
             
             <h2 class="text-lg md:text-2xl lg:text-4xl font-bold">Subjects:</h2>
+            <div class="flex flex-col gap-2 mt-2">
+                
+                <div class="flex w-full gap-2">
+                    <input 
+                        class="flex-[9] bg-gray-100 text-gray-900 placeholder-gray-500 border border-gray-300 p-3 rounded-lg outline-none
+                            focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200
+                            dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-400 dark:border-gray-700 dark:focus:border-blue-400 dark:focus:ring-blue-400"
+                        type="text"
+                        placeholder="Enter subject name..."
+                    >
+                    <button 
+                        class="flex-[1] bg-red-500 text-white rounded-lg p-3 font-semibold hover:bg-red-600 transition-colors duration-200"
+                    >
+                        Delete
+                    </button>
+                </div>
+
+                <button 
+                    class="flex-[1] bg-purple-500 text-white rounded-lg p-3 font-semibold hover:bg-purple-600 transition-colors duration-200"
+                >
+                    Add Subject
+                </button>
+
+            </div>
 
         </div>
     `,
