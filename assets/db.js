@@ -94,16 +94,40 @@ async function deleteSubject(id) {
 }
 
 // ================== QUESTIONS ==================
-async function addQuestion(subject_id, questionText, answers) {
+// Add Question
+async function addQuestion(subject_id, questionText, answer) {
     return new Promise((resolve, reject) => {
         const tx = db.transaction("questions", "readwrite");
         const store = tx.objectStore("questions");
 
-        const req = store.add({ subject_id, questionText, answers });
+        const req = store.add({ subject_id, questionText, answer }); // single answer string
         req.onsuccess = () => resolve(req.result);
         req.onerror = e => reject(e);
     });
 }
+
+// Update Question
+async function updateQuestion(id, questionText, answer) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("questions", "readwrite");
+        const store = tx.objectStore("questions");
+
+        const getReq = store.get(id);
+        getReq.onsuccess = () => {
+            const question = getReq.result;
+            if (!question) return reject("Question not found");
+
+            question.questionText = questionText;
+            question.answer = answer; // single string
+
+            const putReq = store.put(question);
+            putReq.onsuccess = () => resolve(true);
+            putReq.onerror = e => reject(e);
+        };
+        getReq.onerror = e => reject(e);
+    });
+}
+
 
 async function getQuestionsBySubject(subjectId) {
     return new Promise((resolve, reject) => {
@@ -134,27 +158,6 @@ async function getQuestions(subject_id) {
         const req = index.getAll(subject_id);
         req.onsuccess = () => resolve(req.result);
         req.onerror = e => reject(e);
-    });
-}
-
-async function updateQuestion(id, questionText, answers) {
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction("questions", "readwrite");
-        const store = tx.objectStore("questions");
-
-        const getReq = store.get(id);
-        getReq.onsuccess = () => {
-            const question = getReq.result;
-            if (!question) return reject("Question not found");
-
-            question.questionText = questionText;
-            question.answers = answers;
-
-            const putReq = store.put(question);
-            putReq.onsuccess = () => resolve(true);
-            putReq.onerror = e => reject(e);
-        };
-        getReq.onerror = e => reject(e);
     });
 }
 
