@@ -52,7 +52,7 @@ const pages = {
             </div>
         </div>
     `,
-        tutorial: `
+    tutorial: `
         <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-32 space-y-10">
             <h2 class="text-3xl font-bold mb-4 text-purple-600 dark:text-purple-400">Quizcet Tutorial</h2>
 
@@ -109,6 +109,14 @@ const pages = {
             </section>
 
             <section>
+                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Clear All Data</h3>
+                <p class="text-gray-800 dark:text-gray-300">
+                    On the Settings page, you can click <span class="bg-red-600 text-white px-2 py-1 rounded">Clear All Data</span> to delete all subjects and questions. 
+                    <span class="font-semibold text-red-600 dark:text-red-400">This action cannot be undone!</span>
+                </p>
+            </section>
+
+            <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Theme Toggle</h3>
                 <p class="text-gray-800 dark:text-gray-300">
                     Switch between light and dark mode in the Settings page by clicking the theme button.
@@ -120,7 +128,7 @@ const pages = {
                 <ul class="list-disc list-inside space-y-2 text-gray-800 dark:text-gray-300">
                     <li>Ensure each subject has at least 5 questions for review mode.</li>
                     <li>Use clear questions and answers for effective self-review.</li>
-                    <li>Remove old subjects and questions periodically to keep organized.</li>
+                    <li>Remove old subjects and questions periodically to stay organized.</li>
                 </ul>
             </section>
         </div>
