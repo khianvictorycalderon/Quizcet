@@ -52,12 +52,77 @@ const pages = {
             </div>
         </div>
     `,
-    tutorial: `
-        <div class="
-            px-4 md:px-8 lg:px-16 pb-4
-            min-h-screen pt-20
-            ">
-            <h2>This is Tutorial page</h2>
+        tutorial: `
+        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-32 space-y-10">
+            <h2 class="text-3xl font-bold mb-4 text-purple-600 dark:text-purple-400">Quizcet Tutorial</h2>
+
+            <section>
+                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Introduction</h3>
+                <p class="text-gray-800 dark:text-gray-300 leading-relaxed">
+                    Quizcet is a web-based self-quiz system that helps you review your lessons efficiently.
+                    Create subjects, add questions, and review them in random order.
+                </p>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Adding Subjects</h3>
+                <ol class="list-decimal list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                    <li>Go to the Subjects page.</li>
+                    <li>Enter a new subject name in the input field.</li>
+                    <li>Click <span class="bg-green-500 text-white px-2 py-1 rounded">Add Subject</span>.</li>
+                    <li>Edit or delete subjects as needed in the list below.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Adding Questions</h3>
+                <ol class="list-decimal list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                    <li>Select a subject from the dropdown menu.</li>
+                    <li>Click <span class="bg-blue-500 text-white px-2 py-1 rounded">Add Question</span>.</li>
+                    <li>Enter your question in the textarea. You can use multiple lines.</li>
+                    <li>Enter the answer in the input field.</li>
+                    <li>Click <span class="bg-purple-500 text-white px-2 py-1 rounded">Save</span> to add the question.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Reviewing Questions</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                    <li>Go to the Home page.</li>
+                    <li>Click <span class="bg-purple-500 text-white px-2 py-1 rounded">Review All</span> to review all subjects.</li>
+                    <li>Click <span class="bg-purple-500 text-white px-2 py-1 rounded">Review One Subject</span> to select a subject.</li>
+                    <li>Type your answer in the input box and submit. The next question appears automatically.</li>
+                    <li>Questions are randomized and shown once before repeating.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Import & Export</h3>
+                <p class="text-gray-800 dark:text-gray-300">
+                    Export all subjects and questions as a JSON file, or import new ones without replacing existing subjects.
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                    <li>Go to Settings.</li>
+                    <li>Click <span class="bg-green-500 text-white px-2 py-1 rounded">Export Subjects</span> to download JSON.</li>
+                    <li>Click <span class="bg-blue-500 text-white px-2 py-1 rounded">Import Subjects</span> to add new subjects from a JSON file.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Theme Toggle</h3>
+                <p class="text-gray-800 dark:text-gray-300">
+                    Switch between light and dark mode in the Settings page by clicking the theme button.
+                </p>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Tips</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                    <li>Ensure each subject has at least 5 questions for review mode.</li>
+                    <li>Use clear questions and answers for effective self-review.</li>
+                    <li>Remove old subjects and questions periodically to keep organized.</li>
+                </ul>
+            </section>
         </div>
     `,
     settings: `
