@@ -84,3 +84,15 @@ async function importSubjects(file) {
     if (document.getElementById("subject-select")) await populateSubjectSelect();
     if (document.getElementById("questions-list")) await populateQuestions();
 }
+
+async function clearAllData() {
+    if (!confirm("Are you sure you want to delete ALL subjects and questions? This cannot be undone.")) return;
+
+    const subjects = await getSubjects();
+    for (const s of subjects) {
+        await deleteSubject(s.id);
+    }
+
+    alert("All subjects and questions have been deleted.");
+    window.location.reload();
+}

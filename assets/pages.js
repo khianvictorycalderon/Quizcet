@@ -142,6 +142,10 @@ const pages = {
                 <input type="file" id="import-file" class="hidden" accept="application/json" />
                 <button onclick="document.getElementById('import-file').click()" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Import Subjects</button>
             </div>
+
+            <div>
+                <button onclick="clearAllData()" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">Clear All Data</button>
+            </div>
         </div>
     `
 };
