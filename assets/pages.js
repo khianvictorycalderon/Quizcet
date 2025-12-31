@@ -30,6 +30,7 @@ const pages = {
     questions: `
         <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-20">
             <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Questions:</h2>
+            
             <div class="flex flex-row gap-2 mb-4 max-w-xl">
                 <select id="subject-select" class="flex-1 p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white">
                     <option value="">-- Choose Subject --</option>
@@ -43,13 +44,8 @@ const pages = {
             <div id="question-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                 <div class="bg-white dark:bg-gray-900 p-6 rounded-lg w-full max-w-lg">
                     <h3 class="text-lg font-bold mb-2">Add/Edit Question</h3>
-                    <input id="question-text" type="text" placeholder="Enter question..." class="w-full p-2 border rounded mb-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
-                    <select id="question-type" class="w-full p-2 border rounded mb-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
-                        <option value="identification">Identification</option>
-                        <option value="multiple">Multiple Choice</option>
-                        <option value="truefalse">True / False</option>
-                    </select>
-                    <div id="answers-container" class="mb-4"></div>
+                    <textarea id="question-text" placeholder="Enter question..." class="w-full p-2 border rounded mb-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white resize-none"></textarea>
+                    <textarea id="answer-text" placeholder="Answer (case-insensitive)" class="w-full p-2 border rounded mb-4 dark:border-gray-700 dark:bg-gray-800 dark:text-white resize-none"></textarea>
                     <div class="flex justify-end gap-2">
                         <button id="cancel-question" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</button>
                         <button id="save-question" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">Save</button>

@@ -1,3 +1,6 @@
+let editingQuestionId = null;
+
+// ================== HOME PAGE ==================
 let questionHistoryAll = [];
 let questionHistorySubject = {};
 
@@ -38,8 +41,6 @@ async function initHomePage() {
     };
 }
 
-
-// showRandomQuestion
 async function showRandomQuestion(container, mode = "all", subjectId = null) {
     let questions = [];
     if (mode === "all") {
@@ -54,9 +55,8 @@ async function showRandomQuestion(container, mode = "all", subjectId = null) {
             return;
         }
 
-        // Exclude already asked questions
         const remaining = questions.filter(q => !questionHistoryAll.includes(q.id));
-        const pool = remaining.length > 0 ? remaining : (questionHistoryAll = [], questions); // reset history if exhausted
+        const pool = remaining.length > 0 ? remaining : (questionHistoryAll = [], questions);
         const q = pool[Math.floor(Math.random() * pool.length)];
         questionHistoryAll.push(q.id);
         displayQuestion(container, q);
@@ -77,25 +77,31 @@ async function showRandomQuestion(container, mode = "all", subjectId = null) {
     }
 }
 
-// displayQuestion
 function displayQuestion(container, question) {
     container.innerHTML = `
         <div class="p-4 border rounded-md shadow-md dark:border-gray-700 dark:bg-gray-800">
-            <h3 class="font-semibold mb-4">${question.question}</h3>
-            <div id="home-answer-container"></div>
-            <button id="show-answer-btn" class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Show Answer</button>
+            <h3 class="font-semibold mb-4 whitespace-pre-wrap">${question.questionText}</h3>
+            <div id="home-answer-container" class="flex flex-col gap-2">
+                <textarea placeholder="Type your answer here..." class="w-full p-2 border rounded dark:border-gray-700 dark:bg-gray-900 dark:text-white resize-none"></textarea>
+                <button id="submit-answer-btn" class="mt-2 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Submit</button>
+            </div>
         </div>
     `;
 
-    const ansContainer = document.getElementById("home-answer-container");
-    generateAnswerInputs(question.type, question.answer, ansContainer);
+    const ansTextarea = document.querySelector("#home-answer-container textarea");
+    const submitBtn = document.getElementById("submit-answer-btn");
 
-    document.getElementById("show-answer-btn").onclick = () => {
-        alert("Answer: " + question.answer.join(", "));
+    submitBtn.onclick = () => {
+        const userAnswer = ansTextarea.value.trim();
+        if (!userAnswer) return alert("Enter an answer!");
+
+        if (userAnswer.toLowerCase() === question.answers[0].toLowerCase()) {
+            alert("Correct!");
+        } else {
+            alert(`Wrong! Correct answer: ${question.answers[0]}`);
+        }
     };
 }
-
-let editingQuestionId = null;
 
 // ================== SUBJECTS ==================
 async function populateSubjects() {
@@ -107,7 +113,7 @@ async function populateSubjects() {
 
     subjects.forEach(subject => {
         const div = document.createElement("div");
-        div.className = "flex flex-row gap-2";
+        div.className = "flex flex-row gap-2 mb-2";
 
         const input = document.createElement("input");
         input.type = "text";
@@ -119,13 +125,11 @@ async function populateSubjects() {
             if (!newName) return alert("Name cannot be empty");
 
             const allSubjects = await getSubjects();
-            const duplicate = allSubjects.some(
-                s => s.name.toLowerCase() === newName.toLowerCase() && s.id !== subject.id
-            );
+            const duplicate = allSubjects.some(s => s.name.toLowerCase() === newName.toLowerCase() && s.id !== subject.id);
 
             if (duplicate) {
                 alert("A subject with this name already exists!");
-                input.value = subject.name; // revert to original name
+                input.value = subject.name;
                 return;
             }
 
@@ -139,24 +143,9 @@ async function populateSubjects() {
         delBtn.className = "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded";
         delBtn.onclick = async () => {
             if (!confirm("Delete this subject?")) return;
-
-            const selectedSubjectId = Number(document.getElementById("subject-select")?.value);
             await deleteSubject(subject.id);
-
-            // Update Subjects list if visible
-            const subjectsList = document.getElementById("subjects-list");
-            if (subjectsList) await populateSubjects();
-
-            // Update Questions dropdown if visible
-            const select = document.getElementById("subject-select");
-            if (select) await populateSubjectSelect();
-
-            // Clear questions if deleted subject was selected
-            if (selectedSubjectId === subject.id) {
-                const questionsList = document.getElementById("questions-list");
-                if (questionsList) questionsList.innerHTML = "";
-                if (select) select.value = "";
-            }
+            await populateSubjects();
+            await populateSubjectSelect();
         };
 
         div.appendChild(input);
@@ -177,7 +166,7 @@ function initSubjectsPage() {
             await addSubject(name);
             input.value = "";
             await populateSubjects();
-            await populateSubjectSelect();
+            await populateSubjectSelect(); // <-- make sure this is here
         } catch (e) {
             alert(e);
         }
@@ -220,12 +209,12 @@ async function populateQuestions() {
         div.className = "flex flex-col p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white";
 
         const text = document.createElement("div");
-        text.textContent = `[${q.type}] ${q.questionText}`;
-        text.className = "mb-1";
+        text.textContent = q.questionText;
+        text.className = "mb-1 whitespace-pre-wrap";
 
         const ans = document.createElement("div");
-        ans.className = "mb-2 text-sm text-gray-300 dark:text-gray-400";
-        ans.textContent = "Answers: " + (Array.isArray(q.answers) ? q.answers.join(", ") : q.answers);
+        ans.className = "mb-2 text-sm text-gray-300 dark:text-gray-400 whitespace-pre-wrap";
+        ans.textContent = "Answer: " + q.answers[0];
 
         const btnDiv = document.createElement("div");
         btnDiv.className = "flex gap-2";
@@ -255,6 +244,45 @@ async function populateQuestions() {
     });
 }
 
+function openQuestionModal(question = null) {
+    editingQuestionId = question ? question.id : null;
+    const modal = document.getElementById("question-modal");
+    const questionTextarea = document.getElementById("question-text");
+    const answerTextarea = document.getElementById("answer-text");
+
+    modal.classList.remove("hidden");
+    questionTextarea.value = question ? question.questionText : "";
+    answerTextarea.value = question && question.answers ? question.answers[0] : "";
+}
+
+function setupQuestionModal() {
+    const modal = document.getElementById("question-modal");
+    const cancelBtn = document.getElementById("cancel-question");
+    const saveBtn = document.getElementById("save-question");
+
+    cancelBtn.onclick = () => modal.classList.add("hidden");
+
+    saveBtn.onclick = async () => {
+        const subjectId = Number(document.getElementById("subject-select").value);
+        if (!subjectId) return alert("Select a subject first");
+
+        const questionText = document.getElementById("question-text").value.trim();
+        if (!questionText) return alert("Enter a question");
+
+        const answerText = document.getElementById("answer-text").value.trim();
+        if (!answerText) return alert("Enter an answer");
+
+        if (editingQuestionId) {
+            await updateQuestion(editingQuestionId, "identification", questionText, [answerText]);
+        } else {
+            await addQuestion(subjectId, "identification", questionText, [answerText]);
+        }
+
+        modal.classList.add("hidden");
+        populateQuestions();
+    };
+}
+
 function initQuestionsPage() {
     const select = document.getElementById("subject-select");
     const addBtn = document.getElementById("add-question-btn");
@@ -263,153 +291,11 @@ function initQuestionsPage() {
     populateSubjectSelect().then(() => populateQuestions());
 
     select.onchange = populateQuestions;
-
     addBtn.onclick = () => openQuestionModal();
     setupQuestionModal();
 }
 
-// ================== QUESTION MODAL ==================
-function openQuestionModal(question = null) {
-    editingQuestionId = question ? question.id : null;
-    const modal = document.getElementById("question-modal");
-    const textInput = document.getElementById("question-text");
-    const typeSelect = document.getElementById("question-type");
-    const answersContainer = document.getElementById("answers-container");
-
-    modal.classList.remove("hidden");
-
-    textInput.value = question ? question.questionText : "";
-    typeSelect.value = question ? question.type : "identification";
-    answersContainer.innerHTML = "";
-
-    if (question && question.answers) {
-        generateAnswerInputs(question.type, question.answers);
-    } else {
-        generateAnswerInputs("identification", []);
-    }
-}
-
-function generateAnswerInputs(type, answers = [], correctAnswer = null) {
-    const container = document.getElementById("answers-container");
-    container.innerHTML = "";
-
-    if (type === "identification") {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.placeholder = "Answer";
-        input.value = answers[0] || "";
-        input.className = "w-full p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white";
-        container.appendChild(input);
-
-    } else if (type === "multiple") {
-        for (let i = 0; i < 4; i++) {
-            const div = document.createElement("div");
-            div.className = "flex items-center gap-2 mb-1";
-
-            // Text input for the option
-            const input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = `Option ${i + 1}`;
-            input.value = answers[i] || "";
-            input.className = "flex-1 p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white";
-
-            // Radio button for selecting correct answer
-            const radio = document.createElement("input");
-            radio.type = "radio";
-            radio.name = "correct-answer"; // all radios share the same name
-            radio.value = i;
-            if (correctAnswer === i) radio.checked = true;
-
-            div.appendChild(radio);
-            div.appendChild(input);
-            container.appendChild(div);
-        }
-
-    } else if (type === "truefalse") {
-        const options = ["True", "False"];
-        options.forEach((val) => {
-            const label = document.createElement("label");
-            label.className = `
-                cursor-pointer
-                flex items-center justify-between
-                p-3 border rounded-md
-                hover:bg-purple-600 hover:text-white
-                dark:border-gray-700 dark:hover:bg-purple-600
-                transition-colors duration-200
-            `;
-
-            const radio = document.createElement("input");
-            radio.type = "radio";
-            radio.name = "truefalse";
-            radio.value = val;
-            radio.className = "hidden"; 
-            if (answers[0] === val) radio.checked = true;
-
-            const span = document.createElement("span");
-            span.textContent = val;
-
-            label.appendChild(radio);
-            label.appendChild(span);
-
-            label.onclick = () => {
-                container.querySelectorAll("label").forEach(l => l.classList.remove("bg-purple-600", "text-white"));
-                label.classList.add("bg-purple-600", "text-white");
-                radio.checked = true;
-            };
-
-            container.appendChild(label);
-        });
-    }
-}
-
-function setupQuestionModal() {
-    const modal = document.getElementById("question-modal");
-    const cancelBtn = document.getElementById("cancel-question");
-    const saveBtn = document.getElementById("save-question");
-    const typeSelect = document.getElementById("question-type");
-
-    cancelBtn.onclick = () => modal.classList.add("hidden");
-
-    typeSelect.onchange = () => generateAnswerInputs(typeSelect.value);
-
-    saveBtn.onclick = async () => {
-        const subjectId = Number(document.getElementById("subject-select").value);
-        if (!subjectId) return alert("Select a subject first");
-
-        const type = typeSelect.value;
-        const questionText = document.getElementById("question-text").value.trim();
-        if (!questionText) return alert("Enter a question");
-
-        const container = document.getElementById("answers-container");
-        let answers = [];
-
-        if (type === "identification") {
-            answers = [container.querySelector("input").value.trim()];
-        } else if (type === "multiple") {
-            const inputs = Array.from(container.querySelectorAll("input[type='text']"));
-            answers = inputs.map(i => i.value.trim());
-            
-            const selectedRadio = container.querySelector("input[type='radio']:checked");
-            if (!selectedRadio) return alert("Select the correct answer");
-            
-            const correctIndex = Number(selectedRadio.value); // index of correct option
-        } else if (type === "truefalse") {
-            const checked = container.querySelector("input:checked");
-            if (!checked) return alert("Select True or False");
-            answers = [checked.value];
-        }
-
-        if (editingQuestionId) {
-            await updateQuestion(editingQuestionId, type, questionText, answers);
-        } else {
-            await addQuestion(subjectId, type, questionText, answers);
-        }
-
-        modal.classList.add("hidden");
-        populateQuestions();
-    };
-}
-
+// ================== INIT ==================
 document.addEventListener("DOMContentLoaded", async () => {
     const waitForDB = () => new Promise(res => {
         const check = () => db ? res() : setTimeout(check, 50);
@@ -417,11 +303,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     await waitForDB();
 
-    // Preload subjects
     await populateSubjects();
     await populateSubjectSelect();
 
-    // Initialize current page
     const initialPage = getPageFromURL();
     setPage(initialPage, false);
 });

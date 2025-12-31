@@ -121,7 +121,8 @@ async function addQuestion(subject_id, type, questionText, answers) {
     return new Promise((resolve, reject) => {
         const tx = db.transaction("questions", "readwrite");
         const store = tx.objectStore("questions");
-        const req = store.add({ subject_id, type, questionText, answers });
+
+        const req = store.add({ subject_id, type, questionText, answers }); // no correctIndex
         req.onsuccess = () => resolve(req.result);
         req.onerror = e => reject(e);
     });
@@ -167,13 +168,16 @@ async function updateQuestion(id, type, questionText, answers) {
     return new Promise((resolve, reject) => {
         const tx = db.transaction("questions", "readwrite");
         const store = tx.objectStore("questions");
+
         const getReq = store.get(id);
         getReq.onsuccess = () => {
             const question = getReq.result;
             if (!question) return reject("Question not found");
+
             question.type = type;
             question.questionText = questionText;
             question.answers = answers;
+
             const putReq = store.put(question);
             putReq.onsuccess = () => resolve(true);
             putReq.onerror = e => reject(e);
