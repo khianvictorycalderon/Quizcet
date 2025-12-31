@@ -14,10 +14,16 @@ const pages = {
                     [&>button]:px-2 [&>button]:py-1
                     md:[&>button]:px-4 md:[&>button]:py-2
                     lg:[&>button]:px-8 lg:[&>button]:py-4
-                    [&>button]:border-2 [&>button]:border-purple-600 [&>button]:rounded-lg
-                    [&>button:hover]:bg-purple-600/50 [&>button]:transition [&>button]:duration-300
+                    [&>button]:rounded-lg
+                    [&>button]:transition [&>button]:duration-300
                     [&>button]:text-base md:[&>button]:text-md lg:[&>button]:text-lg
                     [&>button]:font-semibold
+                    
+                    [&>button]:border-2 [&>button]:border-neutral-900 dark:[&>button]:border-neutral-100
+                    [&>button:hover]:bg-purple-600
+                    [&>button:hover]:!border-purple-600
+                    [&>button:hover]:text-neutral-100
+
                     ">
                     <button>Review All Subjects</button>
                     <button>Review One Subject</button>
@@ -60,7 +66,9 @@ const pages = {
             
             <div>
                 <span>Set Theme: </span>
-                <button id="theme-toggle-button" onclick="toggleTheme();" class="bg-neutral-900 px-6 py-2 text-white rounded cursor-pointer">Dark</button>
+                <button onclick="toggleTheme();" class="bg-neutral-900 text-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 px-6 py-2 rounded cursor-pointer"
+                    <span>Light / Dark</span>
+                </button>
             </div>
 
         </div>
