@@ -14,8 +14,6 @@ function setPage(page, updateURL = true) {
         const newURL = `${window.location.pathname}?page=${page}`;
         window.history.pushState({ page }, "", newURL);
     }
-
-    onPageSet();
 }
 
 // Handle back/forward browser buttons

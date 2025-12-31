@@ -31,7 +31,9 @@ const pages = {
             px-4 md:px-8 lg:px-16 pb-4
             min-h-screen pt-20
             ">
-            <h2>This is Subjects page</h2>
+            
+            <h2 class="text-lg md:text-2xl lg:text-4xl font-bold">Subjects:</h2>
+
         </div>
     `,
     questions: `
