@@ -98,6 +98,9 @@ function displayQuestion(container, question, mode, subjectId) {
     const form = document.getElementById("home-answer-form");
     const ansInput = form.querySelector("input");
 
+    // Auto-focus input when question loads
+    ansInput.focus();
+
     form.onsubmit = async (e) => {
         e.preventDefault(); // Prevent page reload on Enter
 
