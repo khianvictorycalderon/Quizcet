@@ -14,6 +14,19 @@ function setPage(page, updateURL = true) {
     if (page === "home") initHomePage(); // ✅ add this
     if (page === "subjects") initSubjectsPage();
     if (page === "questions") initQuestionsPage();
+    if (page === "settings") {
+
+    // attach listener after content is injected
+    const importInput = document.getElementById("import-file");
+    if (importInput) {
+            importInput.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                await importSubjects(file);
+                e.target.value = ""; // reset input so same file can be selected again
+            };
+        }
+    }
 
     if (updateURL) {
         const newURL = `${window.location.pathname}?page=${page}`;

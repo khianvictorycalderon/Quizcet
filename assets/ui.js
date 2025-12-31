@@ -224,7 +224,7 @@ async function populateQuestions() {
 
         const ans = document.createElement("div");
         ans.className = "mb-2 text-sm text-gray-300 dark:text-gray-400 whitespace-pre-wrap";
-        ans.textContent = "Answer: " + q.answers[0];
+        ans.textContent = "Answer: " + q.answer;
 
         const btnDiv = document.createElement("div");
         btnDiv.className = "flex gap-2";
