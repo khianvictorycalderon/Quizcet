@@ -44,26 +44,24 @@ async function initHomePage() {
 
 }
 
+// ================== HOME PAGE RANDOM QUEUE ==================
+let questionQueue = [];
 let lastQuestionId = null;
 
+// Get next question in random order, without repeating until all are done
 async function showRandomQuestion(container, mode = "all", subjectId = null) {
     let questions = [];
 
     if (mode === "all") {
         const subjects = await getSubjects();
-        const validSubjects = [];
         for (const s of subjects) {
             const qs = await getQuestionsBySubject(s.id);
-            if (qs.length >= 5) validSubjects.push(...qs);
+            if (qs.length >= 5) questions.push(...qs);
         }
-
-        if (validSubjects.length === 0) {
+        if (questions.length === 0) {
             container.innerHTML = `<p class="text-red-500">No subjects have at least 5 questions.</p>`;
             return;
         }
-
-        questions = validSubjects;
-
     } else if (mode === "subject") {
         const qs = await getQuestionsBySubject(subjectId);
         if (qs.length < 5) {
@@ -73,13 +71,25 @@ async function showRandomQuestion(container, mode = "all", subjectId = null) {
         questions = qs;
     }
 
-    // Avoid consecutive repetition
+    // Initialize or refill the queue if empty
+    if (questionQueue.length === 0 || questionQueue.every(q => q.used)) {
+        questionQueue = questions.map(q => ({ ...q, used: false }));
+    }
+
+    // Filter unused questions
+    const unused = questionQueue.filter(q => !q.used);
+
+    // Pick random question from unused
     let q;
     do {
-        q = questions[Math.floor(Math.random() * questions.length)];
-    } while (questions.length > 1 && q.id === lastQuestionId);
+        q = unused[Math.floor(Math.random() * unused.length)];
+    } while (unused.length > 1 && q.id === lastQuestionId); // avoid consecutive repeat
 
     lastQuestionId = q.id;
+
+    // Mark as used
+    questionQueue.find(qq => qq.id === q.id).used = true;
+
     displayQuestion(container, q, mode, subjectId);
 }
 
