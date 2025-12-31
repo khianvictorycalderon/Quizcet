@@ -83,28 +83,29 @@ async function showRandomQuestion(container, mode = "all", subjectId = null) {
     displayQuestion(container, q, mode, subjectId);
 }
 
+// Display question
 function displayQuestion(container, question, mode, subjectId) {
     container.innerHTML = `
         <div class="p-4 border rounded-md shadow-md dark:border-gray-700 dark:bg-gray-800">
             <h3 class="font-semibold mb-4 whitespace-pre-wrap">${question.questionText}</h3>
             <div id="home-answer-container" class="flex flex-col gap-2">
-                <textarea placeholder="Type your answer here..." class="w-full p-2 border rounded dark:border-gray-700 dark:bg-gray-900 dark:text-white resize-none"></textarea>
+                <input type="text" placeholder="Type your answer here..." class="w-full p-2 border rounded dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
                 <button id="submit-answer-btn" class="mt-2 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Submit</button>
             </div>
         </div>
     `;
 
-    const ansTextarea = document.querySelector("#home-answer-container textarea");
+    const ansInput = document.querySelector("#home-answer-container input");
     const submitBtn = document.getElementById("submit-answer-btn");
 
     submitBtn.onclick = async () => {
-        const userAnswer = ansTextarea.value.trim();
+        const userAnswer = ansInput.value.trim();
         if (!userAnswer) return alert("Enter an answer!");
 
-        if (userAnswer.toLowerCase() === question.answers[0].toLowerCase()) {
+        if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
             alert("Correct!");
         } else {
-            alert(`Wrong! Correct answer: ${question.answers[0]}`);
+            alert(`Wrong! Correct answer: ${question.answer}`);
         }
 
         // Move to next question automatically
@@ -257,11 +258,11 @@ function openQuestionModal(question = null) {
     editingQuestionId = question ? question.id : null;
     const modal = document.getElementById("question-modal");
     const questionTextarea = document.getElementById("question-text");
-    const answerTextarea = document.getElementById("answer-text");
+    const answerInput = document.getElementById("answer-text"); // now input
 
     modal.classList.remove("hidden");
     questionTextarea.value = question ? question.questionText : "";
-    answerTextarea.value = question && question.answers ? question.answers[0] : "";
+    answerInput.value = question ? question.answer : "";
 }
 
 function setupQuestionModal() {
@@ -282,14 +283,15 @@ function setupQuestionModal() {
         if (!answerText) return alert("Enter an answer");
 
         if (editingQuestionId) {
-            await updateQuestion(editingQuestionId, "identification", questionText, [answerText]);
+            await updateQuestion(editingQuestionId, questionText, answerText);
         } else {
-            await addQuestion(subjectId, "identification", questionText, [answerText]);
+            await addQuestion(subjectId, questionText, answerText);
         }
 
         modal.classList.add("hidden");
         populateQuestions();
     };
+
 }
 
 function initQuestionsPage() {
@@ -317,4 +319,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const initialPage = getPageFromURL();
     setPage(initialPage, false);
+});
+
+document.getElementById("import-file")?.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    await importSubjects(file);
+    e.target.value = ""; // Reset input
 });

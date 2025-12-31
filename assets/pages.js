@@ -43,7 +43,7 @@ const pages = {
                 <div class="bg-white dark:bg-gray-900 p-6 rounded-lg w-full max-w-lg">
                     <h3 class="text-lg font-bold mb-2">Add/Edit Question</h3>
                     <textarea id="question-text" placeholder="Enter question..." class="w-full p-2 border rounded mb-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white resize-none"></textarea>
-                    <textarea id="answer-text" placeholder="Answer (case-insensitive)" class="w-full p-2 border rounded mb-4 dark:border-gray-700 dark:bg-gray-800 dark:text-white resize-none"></textarea>
+                    <input id="answer-text" type="text" placeholder="Answer (case-insensitive)" class="w-full p-2 border rounded mb-4 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                     <div class="flex justify-end gap-2">
                         <button id="cancel-question" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</button>
                         <button id="save-question" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">Save</button>
@@ -61,18 +61,22 @@ const pages = {
         </div>
     `,
     settings: `
-        <div class="
-            px-4 md:px-8 lg:px-16 pb-4
-            min-h-screen pt-32
-            ">
-            
+        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-32 space-y-6">
             <div>
                 <span>Set Theme: </span>
-                <button onclick="toggleTheme();" class="bg-neutral-900 text-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 px-6 py-2 rounded cursor-pointer"
+                <button onclick="toggleTheme();" class="bg-neutral-900 text-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 px-6 py-2 rounded cursor-pointer">
                     <span>Light / Dark</span>
                 </button>
             </div>
 
+            <div>
+                <button onclick="exportSubjects()" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">Export Subjects</button>
+            </div>
+
+            <div>
+                <input type="file" id="import-file" class="hidden" accept="application/json" />
+                <button onclick="document.getElementById('import-file').click()" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Import Subjects</button>
+            </div>
         </div>
     `
 };

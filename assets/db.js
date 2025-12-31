@@ -1,26 +1,3 @@
-/*
-
-    This project uses indexedDB, but should behave like this in equivalent for PostgreSQL:
-    // ----------------------------------------
-
-    Subject name must be unique (case-insensitive)
-
-    CREATE TABLE subjects (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        name TEXT NOT NULL UNIQUE,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP NOT NULL
-    );
-
-    CREATE TABLE questions (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        subject_id UUID REFERENCES subjects(id),
-        question TEXT NOT NULL,
-        answer TEXT [] NOT NULL
-    );
-
-*/
-
 let db;
 const DB_NAME = "QuizcetDB";
 const DB_VERSION = 1;
@@ -39,7 +16,7 @@ request.onupgradeneeded = (event) => {
     // Questions store
     if (!db.objectStoreNames.contains("questions")) {
         const questionsStore = db.createObjectStore("questions", { keyPath: "id", autoIncrement: true });
-        questionsStore.createIndex("subject_id", "subject_id", { unique: false }); // ✅ here
+        questionsStore.createIndex("subject_id", "subject_id", { unique: false });
     }
 };
 
@@ -57,7 +34,7 @@ async function addSubject(name) {
     return new Promise((resolve, reject) => {
         const tx = db.transaction("subjects", "readwrite");
         const store = tx.objectStore("subjects");
-        // Ensure unique name (case-insensitive)
+
         const getAll = store.getAll();
         getAll.onsuccess = () => {
             const exists = getAll.result.some(s => s.name.toLowerCase() === name.toLowerCase());
@@ -117,38 +94,34 @@ async function deleteSubject(id) {
 }
 
 // ================== QUESTIONS ==================
-async function addQuestion(subject_id, type, questionText, answers) {
+async function addQuestion(subject_id, questionText, answers) {
     return new Promise((resolve, reject) => {
         const tx = db.transaction("questions", "readwrite");
         const store = tx.objectStore("questions");
 
-        const req = store.add({ subject_id, type, questionText, answers }); // no correctIndex
+        const req = store.add({ subject_id, questionText, answers });
         req.onsuccess = () => resolve(req.result);
         req.onerror = e => reject(e);
     });
 }
 
-// Get all questions for a given subject
 async function getQuestionsBySubject(subjectId) {
     return new Promise((resolve, reject) => {
         const tx = db.transaction("questions", "readonly");
         const store = tx.objectStore("questions");
 
-        // If index exists
         if (store.indexNames.contains("subject_id")) {
             const index = store.index("subject_id");
             const request = index.getAll(subjectId);
-
             request.onsuccess = () => resolve(request.result);
-            request.onerror = (e) => reject(e);
+            request.onerror = e => reject(e);
         } else {
-            // fallback: scan all questions if index missing
             const request = store.getAll();
             request.onsuccess = () => {
                 const filtered = request.result.filter(q => q.subject_id === subjectId);
                 resolve(filtered);
             };
-            request.onerror = (e) => reject(e);
+            request.onerror = e => reject(e);
         }
     });
 }
@@ -164,7 +137,7 @@ async function getQuestions(subject_id) {
     });
 }
 
-async function updateQuestion(id, type, questionText, answers) {
+async function updateQuestion(id, questionText, answers) {
     return new Promise((resolve, reject) => {
         const tx = db.transaction("questions", "readwrite");
         const store = tx.objectStore("questions");
@@ -174,7 +147,6 @@ async function updateQuestion(id, type, questionText, answers) {
             const question = getReq.result;
             if (!question) return reject("Question not found");
 
-            question.type = type;
             question.questionText = questionText;
             question.answers = answers;
 
