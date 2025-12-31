@@ -24,7 +24,9 @@
 
     <title>Quizset</title>
   </head>
-  <body class="bg-neutral-100 text-neural-800">
+  
+  <!-- By default, home page should be the initial page -->
+  <body onload="setPage('home')" class="bg-neutral-100 text-neural-800 pt-20">
 
     <!-- Navbar -->
     <nav class="
@@ -39,20 +41,22 @@
         items-center align-center
         w-fit
         ">
-          <button>
+          <button onclick="setPage('home')">
             Home
           </button>
-          <button>
+          <button onclick="setPage('subjects')">
             Subjects
           </button>
-          <button>
+          <button onclick="setPage('questions')">
             Questions
           </button>
-          <button>
+          <button onclick="setPage('tutorial')">
             Tutorial
           </button>
       </div>
     </nav>
+
+    <div id="page-content"></div>
 
   </body>
 </html>
