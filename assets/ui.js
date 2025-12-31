@@ -238,7 +238,7 @@ async function populateQuestions() {
         text.className = "mb-1 whitespace-pre-wrap";
 
         const ans = document.createElement("div");
-        ans.className = "mb-2 text-sm text-gray-300 dark:text-gray-400 whitespace-pre-wrap";
+        ans.className = "mb-2 text-sm text-gray-500 dark:text-gray-400 whitespace-pre-wrap";
         ans.textContent = "Answer: " + q.answer;
 
         const btnDiv = document.createElement("div");
