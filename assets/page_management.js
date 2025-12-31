@@ -10,6 +10,10 @@ function setPage(page, updateURL = true) {
     const content = document.getElementById("page-content");
     content.innerHTML = pages[page] ?? pages["home"];
 
+    // Initialize page-specific UI AFTER content is in DOM
+    if (page === "subjects") initSubjectsPage();
+    if (page === "questions") initQuestionsPage();
+
     if (updateURL) {
         const newURL = `${window.location.pathname}?page=${page}`;
         window.history.pushState({ page }, "", newURL);

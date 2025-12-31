@@ -33,45 +33,44 @@ const pages = {
         </div>
     `,
     subjects: `
-        <div class="
-            px-4 md:px-8 lg:px-16 pb-4
-            min-h-screen pt-24
-            ">
-            
-            <h2 class="text-lg md:text-2xl lg:text-4xl font-bold">Subjects:</h2>
-            <div class="flex flex-col gap-2 mt-2">
-                
-                <div class="flex w-full gap-2">
-                    <input 
-                        class="flex-[9] bg-gray-100 text-gray-900 placeholder-gray-500 border border-gray-300 p-3 rounded-lg outline-none
-                            focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200
-                            dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-400 dark:border-gray-700 dark:focus:border-blue-400 dark:focus:ring-blue-400"
-                        type="text"
-                        placeholder="Enter subject name..."
-                    >
-                    <button 
-                        class="flex-[1] bg-red-500 text-white rounded-lg p-3 font-semibold hover:bg-red-600 transition-colors duration-200"
-                    >
-                        Delete
-                    </button>
-                </div>
-
-                <button 
-                    class="flex-[1] bg-purple-500 text-white rounded-lg p-3 font-semibold hover:bg-purple-600 transition-colors duration-200"
-                >
-                    Add Subject
-                </button>
-
+        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-24">
+            <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Subjects:</h2>
+            <div class="flex flex-row gap-2 mb-4">
+                <input id="new-subject-name" type="text" placeholder="Enter subject name..." class="flex-1 p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                <button id="add-subject-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Subject</button>
             </div>
-
+            <div id="subjects-list" class="flex flex-col gap-2"></div>
         </div>
     `,
     questions: `
-        <div class="
-            px-4 md:px-8 lg:px-16 pb-4
-            min-h-screen pt-20
-            ">
-            <h2>This is Questions page</h2>
+        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-20">
+            <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Questions:</h2>
+            <div class="flex flex-row gap-2 mb-4 max-w-xl">
+                <select id="subject-select" class="flex-1 p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                    <option value="">-- Choose Subject --</option>
+                </select>
+                <button id="add-question-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Question</button>
+            </div>
+
+            <div id="questions-list" class="flex flex-col gap-2 mb-8"></div>
+
+            <!-- Modal -->
+            <div id="question-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div class="bg-white dark:bg-gray-900 p-6 rounded-lg w-full max-w-lg">
+                    <h3 class="text-lg font-bold mb-2">Add/Edit Question</h3>
+                    <input id="question-text" type="text" placeholder="Enter question..." class="w-full p-2 border rounded mb-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                    <select id="question-type" class="w-full p-2 border rounded mb-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                        <option value="identification">Identification</option>
+                        <option value="multiple">Multiple Choice</option>
+                        <option value="truefalse">True / False</option>
+                    </select>
+                    <div id="answers-container" class="mb-4"></div>
+                    <div class="flex justify-end gap-2">
+                        <button id="cancel-question" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</button>
+                        <button id="save-question" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">Save</button>
+                    </div>
+                </div>
+            </div>
         </div>
     `,
     tutorial: `
