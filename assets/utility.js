@@ -1,35 +1,39 @@
 // ================== EXPORT ==================
 async function exportSubjects() {
-    try {
-        const subjects = await getSubjects();
-        const data = [];
+    const subjects = await getSubjects();
 
-        for (const subject of subjects) {
-            const questions = await getQuestionsBySubject(subject.id);
-            data.push({
-                name: subject.name,
-                questions: questions.map(q => ({
-                    questionText: q.questionText,
-                    answers: q.answers
-                }))
-            });
-        }
-
-        const jsonStr = JSON.stringify(data, null, 2);
-        const blob = new Blob([jsonStr], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "quizcet_export.json";
-        document.body.appendChild(a); // required for Firefox
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        alert("Export complete!");
-    } catch (e) {
-        alert("Export failed: " + e);
+    const data = [];
+    for (const subject of subjects) {
+        const questions = await getQuestionsBySubject(subject.id);
+        data.push({
+            name: subject.name,
+            questions: questions.map(q => ({
+                questionText: q.questionText,
+                answer: q.answer
+            }))
+        });
     }
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+
+    // Generate timestamped filename
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    const hh = String(hours).padStart(2, "0");
+    const filename = `quizcet_questions-${yyyy}-${mm}-${dd}_${hh}-${minutes}-${ampm}.json`;
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
 }
 
 // ================== IMPORT ==================
