@@ -25,17 +25,21 @@ let db;
 const DB_NAME = "QuizcetDB";
 const DB_VERSION = 1;
 
-const request = indexedDB.open(DB_NAME, DB_VERSION);
+const request = indexedDB.open("QuizcetDB", 1);
 
 request.onupgradeneeded = (event) => {
-    db = event.target.result;
+    const db = event.target.result;
 
+    // Subjects store
     if (!db.objectStoreNames.contains("subjects")) {
-        db.createObjectStore("subjects", { keyPath: "id", autoIncrement: true });
+        const subjectsStore = db.createObjectStore("subjects", { keyPath: "id", autoIncrement: true });
+        subjectsStore.createIndex("name", "name", { unique: true });
     }
+
+    // Questions store
     if (!db.objectStoreNames.contains("questions")) {
-        const store = db.createObjectStore("questions", { keyPath: "id", autoIncrement: true });
-        store.createIndex("subject_id", "subject_id", { unique: false });
+        const questionsStore = db.createObjectStore("questions", { keyPath: "id", autoIncrement: true });
+        questionsStore.createIndex("subject_id", "subject_id", { unique: false }); // ✅ here
     }
 };
 
@@ -120,6 +124,31 @@ async function addQuestion(subject_id, type, questionText, answers) {
         const req = store.add({ subject_id, type, questionText, answers });
         req.onsuccess = () => resolve(req.result);
         req.onerror = e => reject(e);
+    });
+}
+
+// Get all questions for a given subject
+async function getQuestionsBySubject(subjectId) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("questions", "readonly");
+        const store = tx.objectStore("questions");
+
+        // If index exists
+        if (store.indexNames.contains("subject_id")) {
+            const index = store.index("subject_id");
+            const request = index.getAll(subjectId);
+
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = (e) => reject(e);
+        } else {
+            // fallback: scan all questions if index missing
+            const request = store.getAll();
+            request.onsuccess = () => {
+                const filtered = request.result.filter(q => q.subject_id === subjectId);
+                resolve(filtered);
+            };
+            request.onerror = (e) => reject(e);
+        }
     });
 }
 

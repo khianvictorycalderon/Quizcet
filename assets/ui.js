@@ -1,4 +1,99 @@
-// assets/ui.js
+let questionHistoryAll = [];
+let questionHistorySubject = {};
+
+async function initHomePage() {
+    const reviewAllBtn = document.getElementById("review-all-btn");
+    const reviewOneBtn = document.getElementById("review-one-btn");
+    const container = document.getElementById("home-questions-container");
+
+    if (!reviewAllBtn || !reviewOneBtn || !container) return;
+
+    reviewAllBtn.onclick = async () => {
+        await showRandomQuestion(container, "all");
+    };
+
+    reviewOneBtn.onclick = async () => {
+        const subjects = await getSubjects();
+        const validSubjects = [];
+        for (const s of subjects) {
+            const qs = await getQuestionsBySubject(s.id);
+            if (qs.length >= 5) validSubjects.push(s);
+        }
+
+        if (validSubjects.length === 0) {
+            alert("No subjects have at least 5 questions.");
+            return;
+        }
+
+        const subjectNames = validSubjects.map(s => s.name).join("\n");
+        const choice = prompt(`Select a subject:\n${subjectNames}`);
+        const selected = validSubjects.find(s => s.name.toLowerCase() === (choice || "").toLowerCase());
+
+        if (!selected) {
+            alert("Invalid subject selection.");
+            return;
+        }
+
+        await showRandomQuestion(container, "subject", selected.id);
+    };
+}
+
+
+// showRandomQuestion
+async function showRandomQuestion(container, mode = "all", subjectId = null) {
+    let questions = [];
+    if (mode === "all") {
+        const subjects = await getSubjects();
+        for (const s of subjects) {
+            const qs = await getQuestionsBySubject(s.id);
+            questions.push(...qs);
+        }
+
+        if (questions.length === 0) {
+            container.innerHTML = `<p class="text-red-500">No questions available. Add some first!</p>`;
+            return;
+        }
+
+        // Exclude already asked questions
+        const remaining = questions.filter(q => !questionHistoryAll.includes(q.id));
+        const pool = remaining.length > 0 ? remaining : (questionHistoryAll = [], questions); // reset history if exhausted
+        const q = pool[Math.floor(Math.random() * pool.length)];
+        questionHistoryAll.push(q.id);
+        displayQuestion(container, q);
+
+    } else if (mode === "subject") {
+        const qs = await getQuestionsBySubject(subjectId);
+        if (qs.length < 5) {
+            container.innerHTML = `<p class="text-red-500">This subject must have at least 5 questions.</p>`;
+            return;
+        }
+
+        if (!questionHistorySubject[subjectId]) questionHistorySubject[subjectId] = [];
+        const remaining = qs.filter(q => !questionHistorySubject[subjectId].includes(q.id));
+        const pool = remaining.length > 0 ? remaining : (questionHistorySubject[subjectId] = [], qs);
+        const q = pool[Math.floor(Math.random() * pool.length)];
+        questionHistorySubject[subjectId].push(q.id);
+        displayQuestion(container, q);
+    }
+}
+
+// displayQuestion
+function displayQuestion(container, question) {
+    container.innerHTML = `
+        <div class="p-4 border rounded-md shadow-md dark:border-gray-700 dark:bg-gray-800">
+            <h3 class="font-semibold mb-4">${question.question}</h3>
+            <div id="home-answer-container"></div>
+            <button id="show-answer-btn" class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Show Answer</button>
+        </div>
+    `;
+
+    const ansContainer = document.getElementById("home-answer-container");
+    generateAnswerInputs(question.type, question.answer, ansContainer);
+
+    document.getElementById("show-answer-btn").onclick = () => {
+        alert("Answer: " + question.answer.join(", "));
+    };
+}
 
 let editingQuestionId = null;
 
@@ -194,7 +289,7 @@ function openQuestionModal(question = null) {
     }
 }
 
-function generateAnswerInputs(type, answers = []) {
+function generateAnswerInputs(type, answers = [], correctAnswer = null) {
     const container = document.getElementById("answers-container");
     container.innerHTML = "";
 
@@ -208,16 +303,30 @@ function generateAnswerInputs(type, answers = []) {
 
     } else if (type === "multiple") {
         for (let i = 0; i < 4; i++) {
+            const div = document.createElement("div");
+            div.className = "flex items-center gap-2 mb-1";
+
+            // Text input for the option
             const input = document.createElement("input");
             input.type = "text";
             input.placeholder = `Option ${i + 1}`;
             input.value = answers[i] || "";
-            input.className = "w-full p-2 border rounded mb-1 dark:border-gray-700 dark:bg-gray-800 dark:text-white";
-            container.appendChild(input);
+            input.className = "flex-1 p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white";
+
+            // Radio button for selecting correct answer
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "correct-answer"; // all radios share the same name
+            radio.value = i;
+            if (correctAnswer === i) radio.checked = true;
+
+            div.appendChild(radio);
+            div.appendChild(input);
+            container.appendChild(div);
         }
 
     } else if (type === "truefalse") {
-        const options = type === "truefalse" ? ["True", "False"] : answers;
+        const options = ["True", "False"];
         options.forEach((val) => {
             const label = document.createElement("label");
             label.className = `
@@ -231,9 +340,10 @@ function generateAnswerInputs(type, answers = []) {
 
             const radio = document.createElement("input");
             radio.type = "radio";
-            radio.name = type === "truefalse" ? "truefalse" : "multiple-choice";
+            radio.name = "truefalse";
             radio.value = val;
-            radio.className = "hidden"; // hide default radio
+            radio.className = "hidden"; 
+            if (answers[0] === val) radio.checked = true;
 
             const span = document.createElement("span");
             span.textContent = val;
@@ -241,9 +351,7 @@ function generateAnswerInputs(type, answers = []) {
             label.appendChild(radio);
             label.appendChild(span);
 
-            // Clicking label selects radio
             label.onclick = () => {
-                // deselect all siblings
                 container.querySelectorAll("label").forEach(l => l.classList.remove("bg-purple-600", "text-white"));
                 label.classList.add("bg-purple-600", "text-white");
                 radio.checked = true;
@@ -278,7 +386,13 @@ function setupQuestionModal() {
         if (type === "identification") {
             answers = [container.querySelector("input").value.trim()];
         } else if (type === "multiple") {
-            answers = Array.from(container.querySelectorAll("input")).map(i => i.value.trim());
+            const inputs = Array.from(container.querySelectorAll("input[type='text']"));
+            answers = inputs.map(i => i.value.trim());
+            
+            const selectedRadio = container.querySelector("input[type='radio']:checked");
+            if (!selectedRadio) return alert("Select the correct answer");
+            
+            const correctIndex = Number(selectedRadio.value); // index of correct option
         } else if (type === "truefalse") {
             const checked = container.querySelector("input:checked");
             if (!checked) return alert("Select True or False");
@@ -303,7 +417,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     await waitForDB();
 
-    // Preload subjects for any page
+    // Preload subjects
     await populateSubjects();
     await populateSubjectSelect();
 

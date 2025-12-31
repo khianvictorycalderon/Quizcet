@@ -11,6 +11,7 @@ function setPage(page, updateURL = true) {
     content.innerHTML = pages[page] ?? pages["home"];
 
     // Initialize page-specific UI AFTER content is in DOM
+    if (page === "home") initHomePage(); // ✅ add this
     if (page === "subjects") initSubjectsPage();
     if (page === "questions") initQuestionsPage();
 
@@ -24,10 +25,4 @@ function setPage(page, updateURL = true) {
 window.addEventListener("popstate", (event) => {
     const page = event.state?.page || getPageFromURL();
     setPage(page, false); // don't update URL again
-});
-
-// Initialize page on load
-window.addEventListener("DOMContentLoaded", () => {
-    const initialPage = getPageFromURL();
-    setPage(initialPage, false); // don't pushState on initial load
 });
