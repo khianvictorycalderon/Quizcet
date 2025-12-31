@@ -18,6 +18,7 @@ async function initHomePage() {
     reviewOneBtn.onclick = async () => {
         const subjects = await getSubjects();
         const validSubjects = [];
+
         for (const s of subjects) {
             const qs = await getQuestionsBySubject(s.id);
             if (qs.length >= 5) validSubjects.push(s);
@@ -28,6 +29,7 @@ async function initHomePage() {
             return;
         }
 
+        // Ask user to pick one subject
         const subjectNames = validSubjects.map(s => s.name).join("\n");
         const choice = prompt(`Select a subject:\n${subjectNames}`);
         const selected = validSubjects.find(s => s.name.toLowerCase() === (choice || "").toLowerCase());
@@ -37,29 +39,30 @@ async function initHomePage() {
             return;
         }
 
-        await showRandomQuestion(container, "subject", selected.id);
+        await showRandomQuestion(document.getElementById("home-questions-container"), "subject", selected.id);
     };
+
 }
+
+let lastQuestionId = null;
 
 async function showRandomQuestion(container, mode = "all", subjectId = null) {
     let questions = [];
+
     if (mode === "all") {
         const subjects = await getSubjects();
+        const validSubjects = [];
         for (const s of subjects) {
             const qs = await getQuestionsBySubject(s.id);
-            questions.push(...qs);
+            if (qs.length >= 5) validSubjects.push(...qs);
         }
 
-        if (questions.length === 0) {
-            container.innerHTML = `<p class="text-red-500">No questions available. Add some first!</p>`;
+        if (validSubjects.length === 0) {
+            container.innerHTML = `<p class="text-red-500">No subjects have at least 5 questions.</p>`;
             return;
         }
 
-        const remaining = questions.filter(q => !questionHistoryAll.includes(q.id));
-        const pool = remaining.length > 0 ? remaining : (questionHistoryAll = [], questions);
-        const q = pool[Math.floor(Math.random() * pool.length)];
-        questionHistoryAll.push(q.id);
-        displayQuestion(container, q);
+        questions = validSubjects;
 
     } else if (mode === "subject") {
         const qs = await getQuestionsBySubject(subjectId);
@@ -67,17 +70,20 @@ async function showRandomQuestion(container, mode = "all", subjectId = null) {
             container.innerHTML = `<p class="text-red-500">This subject must have at least 5 questions.</p>`;
             return;
         }
-
-        if (!questionHistorySubject[subjectId]) questionHistorySubject[subjectId] = [];
-        const remaining = qs.filter(q => !questionHistorySubject[subjectId].includes(q.id));
-        const pool = remaining.length > 0 ? remaining : (questionHistorySubject[subjectId] = [], qs);
-        const q = pool[Math.floor(Math.random() * pool.length)];
-        questionHistorySubject[subjectId].push(q.id);
-        displayQuestion(container, q);
+        questions = qs;
     }
+
+    // Avoid consecutive repetition
+    let q;
+    do {
+        q = questions[Math.floor(Math.random() * questions.length)];
+    } while (questions.length > 1 && q.id === lastQuestionId);
+
+    lastQuestionId = q.id;
+    displayQuestion(container, q, mode, subjectId);
 }
 
-function displayQuestion(container, question) {
+function displayQuestion(container, question, mode, subjectId) {
     container.innerHTML = `
         <div class="p-4 border rounded-md shadow-md dark:border-gray-700 dark:bg-gray-800">
             <h3 class="font-semibold mb-4 whitespace-pre-wrap">${question.questionText}</h3>
@@ -91,7 +97,7 @@ function displayQuestion(container, question) {
     const ansTextarea = document.querySelector("#home-answer-container textarea");
     const submitBtn = document.getElementById("submit-answer-btn");
 
-    submitBtn.onclick = () => {
+    submitBtn.onclick = async () => {
         const userAnswer = ansTextarea.value.trim();
         if (!userAnswer) return alert("Enter an answer!");
 
@@ -100,6 +106,9 @@ function displayQuestion(container, question) {
         } else {
             alert(`Wrong! Correct answer: ${question.answers[0]}`);
         }
+
+        // Move to next question automatically
+        await showRandomQuestion(container, mode, subjectId);
     };
 }
 

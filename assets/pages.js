@@ -1,20 +1,18 @@
 const pages = {
     home: `
-        <div class="
-            px-4 md:px-8 lg:px-16 pb-4
-            min-h-screen
-            flex flex-col items-center justify-center
-        ">
-            <div class="text-center space-y-6">
+        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen flex flex-col items-center justify-start pt-32">
+            <div id="home-controls" class="text-center space-y-6 mb-8">
                 <h2 class="font-extrabold text-xl md:text-2xl lg:text-4xl">Start Reviewing!</h2>
-
                 <div class="flex flex-col md:flex-row gap-4 justify-center">
-                    <button id="review-all-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300">Review All Subjects</button>
-                    <button id="review-one-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300">Review One Subject</button>
+                    <button id="review-all-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300">
+                        Review All Subjects
+                    </button>
+                    <button id="review-one-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300">
+                        Review One Subject
+                    </button>
                 </div>
-
-                <div id="home-questions-container" class="mt-8 w-full max-w-2xl"></div>
             </div>
+            <div id="home-questions-container" class="w-full max-w-2xl"></div>
         </div>
     `,
     subjects: `
