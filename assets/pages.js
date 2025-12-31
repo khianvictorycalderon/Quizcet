@@ -8,6 +8,15 @@ const pages = {
             
             <div>
                 <h2 class="font-extrabold text-xl md:text-2xl lg:text-4xl">GET STARTED!</h2>
+                <div class="
+                    flex flex-row gap-4 mt-4 w-full 
+                    [&>button]:flex-1 [&>button]:cursor-pointer
+                    [&>button]:px-6 [&>button]:py-2
+                    [&>button]:border-2 [&>button]:border-purple-600 [&>button]:rounded-lg
+                    ">
+                    <button>Ask All</button>
+                    <button>Ask</button>
+                </div>
             </div>
 
         </div>
