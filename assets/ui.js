@@ -88,17 +88,19 @@ function displayQuestion(container, question, mode, subjectId) {
     container.innerHTML = `
         <div class="p-4 border rounded-md shadow-md dark:border-gray-700 dark:bg-gray-800">
             <h3 class="font-semibold mb-4 whitespace-pre-wrap">${question.questionText}</h3>
-            <div id="home-answer-container" class="flex flex-col gap-2">
-                <input type="text" placeholder="Type your answer here..." class="w-full p-2 border rounded dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
-                <button id="submit-answer-btn" class="mt-2 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Submit</button>
-            </div>
+            <form id="home-answer-form" class="flex flex-col gap-2">
+                <input type="text" placeholder="Type your answer here..." class="w-full p-2 border rounded dark:border-gray-700 dark:bg-gray-900 dark:text-white" required />
+                <button type="submit" class="mt-2 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Submit</button>
+            </form>
         </div>
     `;
 
-    const ansInput = document.querySelector("#home-answer-container input");
-    const submitBtn = document.getElementById("submit-answer-btn");
+    const form = document.getElementById("home-answer-form");
+    const ansInput = form.querySelector("input");
 
-    submitBtn.onclick = async () => {
+    form.onsubmit = async (e) => {
+        e.preventDefault(); // Prevent page reload on Enter
+
         const userAnswer = ansInput.value.trim();
         if (!userAnswer) return alert("Enter an answer!");
 
