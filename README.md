@@ -1,11 +1,11 @@
-# Quizset: RSQ *(Review Self-Quiz)*
+# Quizcet: RSQ *(Review Self-Quiz)*
 A web-based review self quiz system that let's you create questions and mock tests and quizzes.
 
 ## Purpose
 Initially developed for my personal use of reviewing lessons in college.
 
 ## Installation
-1. Run `git clone https://github.com/khianvictorycalderon/Quizset.git`
+1. Run `git clone https://github.com/khianvictorycalderon/Quizcet.git`
 2. Either directly open `index.html` or use `live server` from VS code.
 3. Go and enjoy reviewing lessons!
 
