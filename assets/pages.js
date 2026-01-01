@@ -99,19 +99,24 @@ const pages = {
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Import & Export</h3>
                 <p class="text-gray-800 dark:text-gray-300">
-                    Export all subjects and questions as a JSON file, or import new ones without replacing existing subjects.
+                    You can export or import subjects and questions in two ways:
                 </p>
                 <ul class="list-disc list-inside space-y-2 text-gray-800 dark:text-gray-300">
-                    <li>Go to Settings.</li>
-                    <li>Click <span class="bg-green-500 text-white px-2 py-1 rounded">Export Subjects</span> to download JSON.</li>
-                    <li>Click <span class="bg-blue-500 text-white px-2 py-1 rounded">Import Subjects</span> to add new subjects from a JSON file.</li>
+                    <li>
+                        <span class="font-semibold text-green-600 dark:text-green-400">File-based:</span> 
+                        Go to Settings → <span class="bg-green-500 text-white px-2 py-1 rounded">Export Subjects to JSON File</span> to download a JSON file, or <span class="bg-blue-500 text-white px-2 py-1 rounded">Import Subjects from JSON File</span> to import.
+                    </li>
+                    <li>
+                        <span class="font-semibold text-green-600 dark:text-green-400">Text-based:</span> 
+                        Go to Settings → <span class="bg-green-500 text-white px-2 py-1 rounded">Export Subjects (Copy to Clipboard)</span> to copy JSON text, or <span class="bg-blue-500 text-white px-2 py-1 rounded">Import Subjects from JSON String</span> to paste JSON text directly using a prompt.
+                    </li>
                 </ul>
             </section>
 
             <section>
-                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Clear All Data</h3>
+                <h3 class="text-2xl font-semibold mb-2 text-red-600 dark:text-red-400">Clear All Data</h3>
                 <p class="text-gray-800 dark:text-gray-300">
-                    On the Settings page, you can click <span class="bg-red-600 text-white px-2 py-1 rounded">Clear All Data</span> to delete all subjects and questions. 
+                    On the Settings page, click <span class="bg-red-600 text-white px-2 py-1 rounded">Clear All Data</span> to delete all subjects and questions. 
                     <span class="font-semibold text-red-600 dark:text-red-400">This action cannot be undone!</span>
                 </p>
             </section>
