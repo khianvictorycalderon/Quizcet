@@ -173,7 +173,7 @@ const pages = {
                         Export Subjects (Copy to Clipboard)
                     </button>
 
-                    <button onclick="" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 shadow transition">
+                    <button onclick="importSubjectsFromText();" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 shadow transition">
                         Import Subjects from JSON String
                     </button>
                 </div>
