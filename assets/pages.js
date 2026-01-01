@@ -169,7 +169,7 @@ const pages = {
             <section class="space-y-4">
                 <h2 class="text-xl md:text-2xl font-semibold text-green-600 dark:text-green-400">Import / Export (Text)</h2>
                 <div class="flex flex-col md:flex-row gap-4">
-                    <button onclick="" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 shadow transition">
+                    <button onclick="exportSubjectsAsText();" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 shadow transition">
                         Export Subjects (Copy to Clipboard)
                     </button>
 
