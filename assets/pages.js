@@ -1,6 +1,24 @@
 const pages = {
     home: `
         <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen flex flex-col items-center justify-start pt-32">
+            
+            <!-- Select Subject Modal -->
+            <div id="select-subject-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div class="bg-white dark:bg-gray-900 p-6 rounded-lg w-full max-w-md">
+                    <h3 class="text-lg font-bold mb-4 text-purple-600 dark:text-purple-400">Select a Subject</h3>
+                    
+                    <input type="text" id="select-subject-input" placeholder="Type subject name..." 
+                    class="w-full p-2 mb-4 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                    
+                    <ul id="select-subject-list" class="max-h-48 overflow-y-auto mb-4 border rounded dark:border-gray-700 dark:bg-gray-800"></ul>
+                    
+                    <div class="flex justify-end gap-2">
+                    <button id="cancel-select-subject" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</button>
+                    <button id="ok-select-subject" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">OK</button>
+                    </div>
+                </div>
+            </div>
+        
             <div id="home-controls" class="text-center space-y-6 mb-8">
                 <h2 class="font-extrabold text-xl md:text-2xl lg:text-4xl">Start Reviewing!</h2>
                 <div class="flex flex-col md:flex-row gap-4 justify-center">

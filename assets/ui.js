@@ -29,17 +29,62 @@ async function initHomePage() {
             return;
         }
 
-        // Ask user to pick one subject
-        const subjectNames = validSubjects.map(s => s.name).join("\n");
-        const choice = prompt(`Select a subject:\n${subjectNames}`);
-        const selected = validSubjects.find(s => s.name.toLowerCase() === (choice || "").toLowerCase());
+        // Show modal
+        const modal = document.getElementById("select-subject-modal");
+        const input = document.getElementById("select-subject-input");
+        const list = document.getElementById("select-subject-list");
+        const cancelBtn = document.getElementById("cancel-select-subject");
+        const okBtn = document.getElementById("ok-select-subject");
 
-        if (!selected) {
-            alert("Invalid subject selection.");
-            return;
+        modal.classList.remove("hidden");
+        input.value = "";
+        list.innerHTML = "";
+
+        let selectedSubject = null;
+
+        // Populate list
+        function updateList(filter = "") {
+            list.innerHTML = "";
+            const filtered = validSubjects.filter(s => s.name.toLowerCase().includes(filter.toLowerCase()));
+            filtered.forEach(s => {
+                const li = document.createElement("li");
+                li.textContent = s.name;
+                li.className = "p-2 cursor-pointer hover:bg-purple-500 hover:text-white rounded";
+                li.onclick = () => {
+                    input.value = s.name;
+                    selectedSubject = s;
+                };
+                list.appendChild(li);
+            });
         }
 
-        await showRandomQuestion(document.getElementById("home-questions-container"), "subject", selected.id);
+        updateList();
+
+        input.oninput = (e) => {
+            selectedSubject = null;
+            updateList(e.target.value);
+        };
+
+        cancelBtn.onclick = () => {
+            modal.classList.add("hidden");
+        };
+
+        okBtn.onclick = async () => {
+            const chosenName = input.value.trim();
+            const s = validSubjects.find(sub => sub.name.toLowerCase() === chosenName.toLowerCase());
+            if (!s) {
+                alert("Invalid subject selection.");
+                return;
+            }
+            selectedSubject = s;
+
+            // Reset queue for new subject
+            questionQueue = [];
+            lastQuestionId = null;
+
+            modal.classList.add("hidden");
+            await showRandomQuestion(document.getElementById("home-questions-container"), "subject", selectedSubject.id);
+        };
     };
 
 }
