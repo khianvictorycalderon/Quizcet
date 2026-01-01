@@ -134,7 +134,7 @@ const pages = {
         </div>
     `,
     settings: `
-        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-32 space-y-12">
+        <div class="px-4 md:px-8 lg:px-16 min-h-screen pt-32 space-y-12 pb-16">
 
             <!-- Section 1: Theme Toggle -->
             <section class="space-y-4">
