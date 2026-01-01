@@ -113,7 +113,8 @@ async function exportSubjectsAsText() {
         });
     }
 
-    const jsonText = JSON.stringify(data, null, 2);
+    // Compact JSON text
+    const jsonText = JSON.stringify(data); // no spaces or line breaks
 
     // Copy to clipboard
     try {
