@@ -134,26 +134,63 @@ const pages = {
         </div>
     `,
     settings: `
-        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-32 space-y-6">
-            <div>
-                <span>Set Theme: </span>
-                <button onclick="toggleTheme();" class="bg-neutral-900 text-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 px-6 py-2 rounded cursor-pointer">
-                    <span>Light / Dark</span>
-                </button>
-            </div>
+        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-32 space-y-12">
 
-            <div>
-                <button onclick="exportSubjects()" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">Export Subjects</button>
-            </div>
+            <!-- Section 1: Theme Toggle -->
+            <section class="space-y-4">
+                <h2 class="text-xl md:text-2xl font-semibold text-purple-600 dark:text-purple-400">Theme</h2>
+                <div>
+                    <button onclick="toggleTheme();" class="bg-neutral-900 text-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 px-6 py-2 rounded shadow hover:shadow-lg transition">
+                        Light / Dark
+                    </button>
+                </div>
+            </section>
 
-            <div>
-                <input type="file" id="import-file" class="hidden" accept="application/json" />
-                <button onclick="document.getElementById('import-file').click()" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Import Subjects</button>
-            </div>
+            <hr class="border-gray-300 dark:border-gray-600 my-6">
 
-            <div>
-                <button onclick="clearAllData()" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">Clear All Data</button>
-            </div>
+            <!-- Section 2: Import & Export (File) -->
+            <section class="space-y-4">
+                <h2 class="text-xl md:text-2xl font-semibold text-green-600 dark:text-green-400">Import / Export (File)</h2>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <button onclick="exportSubjects()" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 shadow transition">
+                        Export Subjects to JSON File
+                    </button>
+
+                    <input type="file" id="import-file" class="hidden" accept="application/json" />
+                    <button onclick="document.getElementById('import-file').click()" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 shadow transition">
+                        Import Subjects from JSON File
+                    </button>
+                </div>
+            </section>
+
+            <hr class="border-gray-300 dark:border-gray-600 my-6">
+
+            <!-- Section 3: Import & Export (Text) -->
+            <section class="space-y-4">
+                <h2 class="text-xl md:text-2xl font-semibold text-green-600 dark:text-green-400">Import / Export (Text)</h2>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <button onclick="" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 shadow transition">
+                        Export Subjects (Copy to Clipboard)
+                    </button>
+
+                    <button onclick="" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 shadow transition">
+                        Import Subjects from JSON String
+                    </button>
+                </div>
+            </section>
+
+            <hr class="border-gray-300 dark:border-gray-600 my-6">
+
+            <!-- Section 4: Clear All Data -->
+            <section class="space-y-4">
+                <h2 class="text-xl md:text-2xl font-semibold text-red-600 dark:text-red-400">Danger Zone</h2>
+                <div>
+                    <button onclick="clearAllData()" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 shadow transition">
+                        Clear All Data
+                    </button>
+                </div>
+            </section>
+
         </div>
     `
 };
