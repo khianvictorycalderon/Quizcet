@@ -141,10 +141,10 @@ async function showRandomQuestion(container, mode = "all", subjectId = null) {
 // Display question
 function displayQuestion(container, question, mode, subjectId) {
     container.innerHTML = `
-        <div class="p-4 border rounded-md shadow-md dark:border-gray-700 dark:bg-gray-800">
+        <div class="p-4 border rounded-md shadow-md dark:border-neutral-700 dark:bg-neutral-800">
             <h3 class="font-semibold mb-4 whitespace-pre-wrap">${question.questionText}</h3>
             <form id="home-answer-form" class="flex flex-col gap-2">
-                <input type="text" placeholder="Type your answer here..." class="w-full p-2 border rounded dark:border-gray-700 dark:bg-gray-900 dark:text-white" required />
+                <input type="text" placeholder="Type your answer here..." class="w-full p-2 border rounded dark:border-neutral-700 dark:bg-neutral-900 dark:text-white" required />
                 <button type="submit" class="mt-2 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Submit</button>
             </form>
         </div>
@@ -188,7 +188,7 @@ async function populateSubjects() {
         const input = document.createElement("input");
         input.type = "text";
         input.value = subject.name;
-        input.className = "flex-1 p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white";
+        input.className = "flex-1 p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white";
 
         input.onchange = async () => {
             const newName = input.value.trim();
@@ -276,14 +276,14 @@ async function populateQuestions() {
 
     questions.forEach(q => {
         const div = document.createElement("div");
-        div.className = "flex flex-col p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white";
+        div.className = "flex flex-col p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white";
 
         const text = document.createElement("div");
         text.textContent = q.questionText;
         text.className = "mb-1 whitespace-pre-wrap";
 
         const ans = document.createElement("div");
-        ans.className = "mb-2 text-sm text-gray-500 dark:text-gray-400 whitespace-pre-wrap";
+        ans.className = "mb-2 text-sm text-neutral-500 dark:text-neutral-400 whitespace-pre-wrap";
         ans.textContent = "Answer: " + q.answer;
 
         const btnDiv = document.createElement("div");

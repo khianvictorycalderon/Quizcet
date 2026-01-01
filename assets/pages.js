@@ -4,16 +4,16 @@ const pages = {
             
             <!-- Select Subject Modal -->
             <div id="select-subject-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                <div class="bg-white dark:bg-gray-900 p-6 rounded-lg w-full max-w-md">
+                <div class="bg-white dark:bg-neutral-900 p-6 rounded-lg w-full max-w-md">
                     <h3 class="text-lg font-bold mb-4 text-purple-600 dark:text-purple-400">Select a Subject</h3>
                     
                     <input type="text" id="select-subject-input" placeholder="Type subject name..." 
-                    class="w-full p-2 mb-4 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                    class="w-full p-2 mb-4 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
                     
-                    <ul id="select-subject-list" class="max-h-48 overflow-y-auto mb-4 border rounded dark:border-gray-700 dark:bg-gray-800"></ul>
+                    <ul id="select-subject-list" class="max-h-48 overflow-y-auto mb-4 border rounded dark:border-neutral-700 dark:bg-neutral-800"></ul>
                     
                     <div class="flex justify-end gap-2">
-                    <button id="cancel-select-subject" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</button>
+                    <button id="cancel-select-subject" class="px-4 py-2 bg-neutral-500 text-white rounded hover:bg-neutral-600">Cancel</button>
                     <button id="ok-select-subject" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">OK</button>
                     </div>
                 </div>
@@ -37,7 +37,7 @@ const pages = {
         <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-24">
             <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Subjects:</h2>
             <div class="flex flex-row gap-2 mb-4">
-                <input id="new-subject-name" type="text" placeholder="Enter subject name..." class="flex-1 p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                <input id="new-subject-name" type="text" placeholder="Enter subject name..." class="flex-1 p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
                 <button id="add-subject-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Subject</button>
             </div>
             <div id="subjects-list" class="flex flex-col gap-2"></div>
@@ -48,7 +48,7 @@ const pages = {
             <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Questions:</h2>
             
             <div class="flex flex-row gap-2 mb-4 max-w-xl">
-                <select id="subject-select" class="flex-1 p-2 border rounded dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                <select id="subject-select" class="flex-1 p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
                     <option value="">-- Choose Subject --</option>
                 </select>
                 <button id="add-question-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Question</button>
@@ -58,12 +58,12 @@ const pages = {
 
             <!-- Modal -->
             <div id="question-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                <div class="bg-white dark:bg-gray-900 p-6 rounded-lg w-full max-w-lg">
+                <div class="bg-white dark:bg-neutral-900 p-6 rounded-lg w-full max-w-lg">
                     <h3 class="text-lg font-bold mb-2">Add/Edit Question</h3>
-                    <textarea id="question-text" placeholder="Enter question..." class="w-full p-2 border rounded mb-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white resize-none"></textarea>
-                    <input id="answer-text" type="text" placeholder="Answer (case-insensitive)" class="w-full p-2 border rounded mb-4 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
+                    <textarea id="question-text" placeholder="Enter question..." class="w-full p-2 border rounded mb-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white resize-none"></textarea>
+                    <input id="answer-text" type="text" placeholder="Answer (case-insensitive)" class="w-full p-2 border rounded mb-4 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white" />
                     <div class="flex justify-end gap-2">
-                        <button id="cancel-question" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</button>
+                        <button id="cancel-question" class="px-4 py-2 bg-neutral-500 text-white rounded hover:bg-neutral-600">Cancel</button>
                         <button id="save-question" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">Save</button>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ const pages = {
 
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Introduction</h3>
-                <p class="text-gray-800 dark:text-gray-300 leading-relaxed">
+                <p class="text-neutral-800 dark:text-neutral-300 leading-relaxed">
                     Quizcet is a web-based self-quiz system that helps you review your lessons efficiently.
                     Create subjects, add questions, and review them in random order.
                 </p>
@@ -84,7 +84,7 @@ const pages = {
 
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Adding Subjects</h3>
-                <ol class="list-decimal list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                <ol class="list-decimal list-inside space-y-2 text-neutral-800 dark:text-neutral-300">
                     <li>Go to the Subjects page.</li>
                     <li>Enter a new subject name in the input field.</li>
                     <li>Click <span class="bg-green-500 text-white px-2 py-1 rounded">Add Subject</span>.</li>
@@ -94,7 +94,7 @@ const pages = {
 
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Adding Questions</h3>
-                <ol class="list-decimal list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                <ol class="list-decimal list-inside space-y-2 text-neutral-800 dark:text-neutral-300">
                     <li>Select a subject from the dropdown menu.</li>
                     <li>Click <span class="bg-blue-500 text-white px-2 py-1 rounded">Add Question</span>.</li>
                     <li>Enter your question in the textarea. You can use multiple lines.</li>
@@ -105,7 +105,7 @@ const pages = {
 
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Reviewing Questions</h3>
-                <ul class="list-disc list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                <ul class="list-disc list-inside space-y-2 text-neutral-800 dark:text-neutral-300">
                     <li>Go to the Home page.</li>
                     <li>Click <span class="bg-purple-500 text-white px-2 py-1 rounded">Review All</span> to review all subjects.</li>
                     <li>Click <span class="bg-purple-500 text-white px-2 py-1 rounded">Review One Subject</span> to select a subject.</li>
@@ -116,10 +116,10 @@ const pages = {
 
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Import & Export</h3>
-                <p class="text-gray-800 dark:text-gray-300">
+                <p class="text-neutral-800 dark:text-neutral-300">
                     You can export or import subjects and questions in two ways:
                 </p>
-                <ul class="list-disc list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                <ul class="list-disc list-inside space-y-2 text-neutral-800 dark:text-neutral-300">
                     <li>
                         <span class="font-semibold text-green-600 dark:text-green-400">File-based:</span> 
                         Go to Settings → <span class="bg-green-500 text-white px-2 py-1 rounded">Export Subjects to JSON File</span> to download a JSON file, or <span class="bg-blue-500 text-white px-2 py-1 rounded">Import Subjects from JSON File</span> to import.
@@ -133,7 +133,7 @@ const pages = {
 
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-red-600 dark:text-red-400">Clear All Data</h3>
-                <p class="text-gray-800 dark:text-gray-300">
+                <p class="text-neutral-800 dark:text-neutral-300">
                     On the Settings page, click <span class="bg-red-600 text-white px-2 py-1 rounded">Clear All Data</span> to delete all subjects and questions. 
                     <span class="font-semibold text-red-600 dark:text-red-400">This action cannot be undone!</span>
                 </p>
@@ -141,14 +141,14 @@ const pages = {
 
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Theme Toggle</h3>
-                <p class="text-gray-800 dark:text-gray-300">
+                <p class="text-neutral-800 dark:text-neutral-300">
                     Switch between light and dark mode in the Settings page by clicking the theme button.
                 </p>
             </section>
 
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Tips</h3>
-                <ul class="list-disc list-inside space-y-2 text-gray-800 dark:text-gray-300">
+                <ul class="list-disc list-inside space-y-2 text-neutral-800 dark:text-neutral-300">
                     <li>Ensure each subject has at least 5 questions for review mode.</li>
                     <li>Use clear questions and answers for effective self-review.</li>
                     <li>Remove old subjects and questions periodically to stay organized.</li>
@@ -169,7 +169,7 @@ const pages = {
                 </div>
             </section>
 
-            <hr class="border-gray-300 dark:border-gray-600 my-6">
+            <hr class="border-neutral-300 dark:border-neutral-600 my-6">
 
             <!-- Section 2: Import & Export (File) -->
             <section class="space-y-4">
@@ -186,7 +186,7 @@ const pages = {
                 </div>
             </section>
 
-            <hr class="border-gray-300 dark:border-gray-600 my-6">
+            <hr class="border-neutral-300 dark:border-neutral-600 my-6">
 
             <!-- Section 3: Import & Export (Text) -->
             <section class="space-y-4">
@@ -202,7 +202,7 @@ const pages = {
                 </div>
             </section>
 
-            <hr class="border-gray-300 dark:border-gray-600 my-6">
+            <hr class="border-neutral-300 dark:border-neutral-600 my-6">
 
             <!-- Section 4: Clear All Data -->
             <section class="space-y-4">
