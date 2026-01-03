@@ -1,6 +1,6 @@
 const pages = {
     home: `
-        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen flex flex-col items-center justify-start pt-32">
+        <div class="px-4 md:px-8 lg:px-16 pb-16 min-h-screen flex flex-col items-center justify-start pt-32">
             
             <div id="home-questions-container" class="w-full max-w-2xl mb-24"></div>
 
@@ -24,18 +24,18 @@ const pages = {
             <div id="home-controls" class="text-center space-y-6 mb-8">
                 <h2 class="font-extrabold text-xl md:text-2xl lg:text-4xl">Start Reviewing!</h2>
                 <div class="flex flex-col md:flex-row gap-4 justify-center">
-                    <button id="review-all-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300">
+                    <button id="review-all-sub-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300">
                         Review All Subjects
                     </button>
-                    <button id="review-one-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300">
-                        Review One Subject
+                    <button id="review-subs-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300">
+                        Review Subject/s
                     </button>
                 </div>
             </div>
         </div>
     `,
     subjects: `
-        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-24">
+        <div class="px-4 md:px-8 lg:px-16 pb-16 min-h-screen pt-24">
             <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Subjects:</h2>
             <div class="flex flex-row gap-2 mb-4">
                 <input id="new-subject-name" type="text" placeholder="Enter subject name..." class="flex-1 p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
@@ -45,7 +45,7 @@ const pages = {
         </div>
     `,
     questions: `
-        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-20">
+        <div class="px-4 md:px-8 lg:px-16 pb-16 min-h-screen pt-24">
             <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Questions:</h2>
             
             <div class="flex flex-row gap-2 mb-4 max-w-xl">
@@ -72,7 +72,7 @@ const pages = {
         </div>
     `,
     tutorial: `
-        <div class="px-4 md:px-8 lg:px-16 pb-4 min-h-screen pt-32 space-y-10">
+        <div class="px-4 md:px-8 lg:px-16 pb-16 min-h-screen pt-24 space-y-10">
             <h2 class="text-3xl font-bold mb-4 text-purple-600 dark:text-purple-400">Quizcet Tutorial</h2>
 
             <section>
@@ -108,15 +108,16 @@ const pages = {
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Reviewing Questions</h3>
                 <ul class="list-disc list-inside space-y-2 text-neutral-800 dark:text-neutral-300">
                     <li>Go to the Home page.</li>
-                    <li>Click <span class="bg-purple-500 text-white px-2 py-1 rounded">Review All</span> to review all subjects.</li>
-                    <li>Click <span class="bg-purple-500 text-white px-2 py-1 rounded">Review One Subject</span> to select a subject.</li>
+                    <li>Click <span class="bg-purple-500 text-white px-2 py-1 rounded">Review All Subjects</span> to review all subjects at once.</li>
+                    <li>Click <span class="bg-purple-500 text-white px-2 py-1 rounded">Review Subject/s</span> to select one or more subjects to review.</li>
+                    <li>In the modal, you can type to filter subjects and click to select multiple subjects.</li>
                     <li>Type your answer in the input box and submit. The next question appears automatically.</li>
-                    <li>Questions are randomized and shown once before repeating.</li>
+                    <li>Questions are randomized across all selected subjects and shown once before repeating.</li>
                 </ul>
             </section>
 
             <section>
-                <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Import & Export</h3>
+                <h3 class="text-2xl font-semibold mb-2 text-green-600 dark:text-green-400">Import & Export</h3>
                 <p class="text-neutral-800 dark:text-neutral-300">
                     You can export or import subjects and questions in two ways:
                 </p>
@@ -158,7 +159,7 @@ const pages = {
         </div>
     `,
     settings: `
-        <div class="px-4 md:px-8 lg:px-16 min-h-screen pt-32 space-y-12 pb-16">
+        <div class="px-4 md:px-8 lg:px-16 min-h-screen pt-24 space-y-12 pb-16">
 
             <!-- Section 1: Theme Toggle -->
             <section class="space-y-4">

@@ -5,17 +5,17 @@ let questionHistoryAll = [];
 let questionHistorySubject = {};
 
 async function initHomePage() {
-    const reviewAllBtn = document.getElementById("review-all-btn");
-    const reviewOneBtn = document.getElementById("review-one-btn");
+    const reviewAllSubButton = document.getElementById("review-all-sub-btn");
+    const reviewSubsButton = document.getElementById("review-subs-btn");
     const container = document.getElementById("home-questions-container");
 
-    if (!reviewAllBtn || !reviewOneBtn || !container) return;
+    if (!reviewAllSubButton || !reviewSubsButton || !container) return;
 
-    reviewAllBtn.onclick = async () => {
+    reviewAllSubButton.onclick = async () => {
         await showRandomQuestion(container, "all");
     };
 
-    reviewOneBtn.onclick = async () => {
+    reviewSubsButton.onclick = async () => {
         const subjects = await getSubjects();
         const validSubjects = [];
 
@@ -40,7 +40,7 @@ async function initHomePage() {
         input.value = "";
         list.innerHTML = "";
 
-        let selectedSubject = null;
+        let selectedSubjects = new Set(); // <-- multiple selections
 
         // Populate list
         function updateList(filter = "") {
@@ -50,9 +50,19 @@ async function initHomePage() {
                 const li = document.createElement("li");
                 li.textContent = s.name;
                 li.className = "p-2 cursor-pointer hover:bg-purple-500 hover:text-white rounded";
+
+                // Highlight selected subjects
+                if (selectedSubjects.has(s.id)) {
+                    li.classList.add("bg-purple-500", "text-white");
+                }
+
                 li.onclick = () => {
-                    input.value = s.name;
-                    selectedSubject = s;
+                    if (selectedSubjects.has(s.id)) {
+                        selectedSubjects.delete(s.id);
+                    } else {
+                        selectedSubjects.add(s.id);
+                    }
+                    updateList(input.value); // refresh highlighting
                 };
                 list.appendChild(li);
             });
@@ -61,7 +71,6 @@ async function initHomePage() {
         updateList();
 
         input.oninput = (e) => {
-            selectedSubject = null;
             updateList(e.target.value);
         };
 
@@ -70,22 +79,22 @@ async function initHomePage() {
         };
 
         okBtn.onclick = async () => {
-            const chosenName = input.value.trim();
-            const s = validSubjects.find(sub => sub.name.toLowerCase() === chosenName.toLowerCase());
-            if (!s) {
-                alert("Invalid subject selection.");
+            if (selectedSubjects.size === 0) {
+                alert("Select at least one subject.");
                 return;
             }
-            selectedSubject = s;
 
-            // Reset queue for new subject
+            // Reset queue
             questionQueue = [];
             lastQuestionId = null;
 
             modal.classList.add("hidden");
-            await showRandomQuestion(document.getElementById("home-questions-container"), "subject", selectedSubject.id);
+
+            // Pass array of IDs to showRandomQuestion
+            await showRandomQuestion(container, "multiple", Array.from(selectedSubjects));
         };
     };
+
 
 }
 
@@ -94,7 +103,7 @@ let questionQueue = [];
 let lastQuestionId = null;
 
 // Get next question in random order, without repeating until all are done
-async function showRandomQuestion(container, mode = "all", subjectId = null) {
+async function showRandomQuestion(container, mode = "all", subjectIds = null) {
     let questions = [];
 
     if (mode === "all") {
@@ -108,12 +117,21 @@ async function showRandomQuestion(container, mode = "all", subjectId = null) {
             return;
         }
     } else if (mode === "subject") {
-        const qs = await getQuestionsBySubject(subjectId);
+        const qs = await getQuestionsBySubject(subjectIds); // old single subject
         if (qs.length < 5) {
             container.innerHTML = `<p class="text-red-500">This subject must have at least 5 questions.</p>`;
             return;
         }
         questions = qs;
+    } else if (mode === "multiple") {
+        for (const id of subjectIds) {
+            const qs = await getQuestionsBySubject(id);
+            if (qs.length >= 5) questions.push(...qs);
+        }
+        if (questions.length === 0) {
+            container.innerHTML = `<p class="text-red-500">Selected subjects do not have enough questions.</p>`;
+            return;
+        }
     }
 
     // Initialize or refill the queue if empty
@@ -121,21 +139,16 @@ async function showRandomQuestion(container, mode = "all", subjectId = null) {
         questionQueue = questions.map(q => ({ ...q, used: false }));
     }
 
-    // Filter unused questions
     const unused = questionQueue.filter(q => !q.used);
-
-    // Pick random question from unused
     let q;
     do {
         q = unused[Math.floor(Math.random() * unused.length)];
-    } while (unused.length > 1 && q.id === lastQuestionId); // avoid consecutive repeat
+    } while (unused.length > 1 && q.id === lastQuestionId);
 
     lastQuestionId = q.id;
-
-    // Mark as used
     questionQueue.find(qq => qq.id === q.id).used = true;
 
-    displayQuestion(container, q, mode, subjectId);
+    displayQuestion(container, q, mode, subjectIds);
 }
 
 // Display question
