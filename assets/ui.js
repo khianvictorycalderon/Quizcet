@@ -175,7 +175,9 @@ function displayQuestion(container, question, mode, subjectId) {
         const userAnswer = ansInput.value.trim();
         if (!userAnswer) return alert("Enter an answer!");
 
-        if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
+        // Answer must match the case exactly
+        // if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
+        if (userAnswer === question.answer) {
             alert("Correct!");
         } else {
             alert(`Wrong! Correct answer: ${question.answer}`);

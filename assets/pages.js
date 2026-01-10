@@ -62,7 +62,7 @@ const pages = {
                 <div class="bg-white dark:bg-neutral-900 p-6 rounded-lg w-full max-w-lg">
                     <h3 class="text-lg font-bold mb-2">Add/Edit Question</h3>
                     <textarea id="question-text" placeholder="Enter question..." class="w-full p-2 border rounded mb-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white resize-none"></textarea>
-                    <input id="answer-text" type="text" placeholder="Answer (case-insensitive)" class="w-full p-2 border rounded mb-4 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white" />
+                    <input id="answer-text" type="text" placeholder="Answer (case-sensitive)" class="w-full p-2 border rounded mb-4 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white" />
                     <div class="flex justify-end gap-2">
                         <button id="cancel-question" class="px-4 py-2 bg-neutral-500 text-white rounded hover:bg-neutral-600">Cancel</button>
                         <button id="save-question" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">Save</button>
