@@ -178,7 +178,7 @@ function displayQuestion(container, question, mode, subjectId) {
         // Answer must match the case exactly
         // if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
         if (userAnswer === question.answer) {
-            alert("Correct!");
+            console.log("Correct Answer");
         } else {
             alert(`Wrong! Correct answer: ${question.answer}`);
         }
