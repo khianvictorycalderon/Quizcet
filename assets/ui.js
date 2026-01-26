@@ -132,7 +132,7 @@ async function showRandomQuestion(container, mode = "all", subjectIds = null) {
             if (qs.length >= 5) questions.push(...qs);
         }
         if (questions.length === 0) {
-            container.innerHTML = `<p class="text-red-500">No subjects have at least 5 questions.</p>`;
+            showCustomAlert("No subjects have at least 5 questions.");
             return;
         }
     } else if (mode === "subject") {
