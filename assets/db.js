@@ -74,22 +74,34 @@ async function updateSubject(id, name) {
 }
 
 async function deleteSubject(id) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const tx = db.transaction(["subjects", "questions"], "readwrite");
-            tx.objectStore("subjects").delete(id);
-            const index = tx.objectStore("questions").index("subject_id");
-            const range = IDBKeyRange.only(id);
-            index.openCursor(range).onsuccess = (event) => {
-                const cursor = event.target.result;
-                if (cursor) {
-                    cursor.delete();
-                    cursor.continue();
-                }
-            };
-            tx.oncomplete = () => resolve(true);
-            tx.onerror = e => reject(e);
-        } catch (e) { reject(e); }
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(["subjects", "questions"], "readwrite");
+
+        const subjectStore = tx.objectStore("subjects");
+        const questionStore = tx.objectStore("questions");
+        const index = questionStore.index("subject_id");
+
+        // Delete subject
+        subjectStore.delete(id);
+
+        // Delete related questions
+        const range = IDBKeyRange.only(id);
+
+        index.openCursor(range).onsuccess = (event) => {
+            const cursor = event.target.result;
+            if (cursor) {
+                cursor.delete();
+                cursor.continue();
+            }
+        };
+
+        tx.oncomplete = () => {
+            resolve(true);
+        };
+
+        tx.onerror = (e) => {
+            reject(e);
+        };
     });
 }
 
