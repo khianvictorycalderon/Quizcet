@@ -1,5 +1,13 @@
 const pages = {
     home: `
+        <div id="custom-alert" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div class="bg-white dark:bg-neutral-900 p-6 rounded-lg w-full max-w-sm text-center shadow">
+                <p id="custom-alert-message" class="mb-4 text-neutral-800 dark:text-neutral-200"></p>
+                <button id="custom-alert-ok" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+                Okay
+                </button>
+            </div>
+        </div>
         <div class="px-4 md:px-8 lg:px-16 pb-16 min-h-screen flex flex-col items-center justify-start pt-32">
             
             <div id="home-questions-container" class="w-full max-w-2xl mb-24"></div>

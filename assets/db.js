@@ -26,7 +26,7 @@ request.onsuccess = (event) => {
 };
 
 request.onerror = (event) => {
-    alert("Failed to connect to QuizcetDB: " + event.target.error);
+    showCustomAlert("Failed to connect to QuizcetDB: " + event.target.error);
 };
 
 // ================== SUBJECTS ==================

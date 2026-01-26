@@ -44,7 +44,7 @@ async function importSubjects(file) {
     try {
         data = JSON.parse(text);
     } catch (e) {
-        return alert("Invalid JSON file");
+        return showCustomAlert("Invalid JSON file");
     }
 
     for (const s of data) {
@@ -78,7 +78,7 @@ async function importSubjects(file) {
         }
     }
 
-    alert("Import complete!");
+    showCustomAlert("Import complete!");
     // Refresh UI
     if (document.getElementById("subjects-list")) await populateSubjects();
     if (document.getElementById("subject-select")) await populateSubjectSelect();
@@ -93,7 +93,7 @@ async function clearAllData() {
         await deleteSubject(s.id);
     }
 
-    alert("All subjects and questions have been deleted.");
+    showCustomAlert("All subjects and questions have been deleted.");
     window.location.reload();
 }
 
@@ -119,10 +119,10 @@ async function exportSubjectsAsText() {
     // Copy to clipboard
     try {
         await navigator.clipboard.writeText(jsonText);
-        alert("Subjects and questions copied to clipboard!");
+        showCustomAlert("Subjects and questions copied to clipboard!");
     } catch (err) {
         console.error("Failed to copy:", err);
-        alert("Could not copy to clipboard. Here is the JSON:\n\n" + jsonText);
+        showCustomAlert("Could not copy to clipboard. Here is the JSON:\n\n" + jsonText);
     }
 }
 
@@ -130,13 +130,13 @@ async function exportSubjectsAsText() {
 async function importSubjectsFromText() {
     const jsonText = prompt("Paste your JSON text here:");
 
-    if (!jsonText) return alert("No input provided.");
+    if (!jsonText) return showCustomAlert("No input provided.");
 
     let data;
     try {
         data = JSON.parse(jsonText);
     } catch (e) {
-        return alert("Invalid JSON. Please check your input.");
+        return showCustomAlert("Invalid JSON. Please check your input.");
     }
 
     // Reuse the same import logic as file import
@@ -167,7 +167,7 @@ async function importSubjectsFromText() {
         }
     }
 
-    alert("Import from text complete!");
+    showCustomAlert("Import from text complete!");
     // Refresh UI
     if (document.getElementById("subjects-list")) await populateSubjects();
     if (document.getElementById("subject-select")) await populateSubjectSelect();

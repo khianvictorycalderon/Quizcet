@@ -1,5 +1,24 @@
 let editingQuestionId = null;
 
+function showCustomAlert(message) {
+    const modal = document.getElementById("custom-alert");
+    const msg = document.getElementById("custom-alert-message");
+    const okBtn = document.getElementById("custom-alert-ok");
+
+    if (!modal || !msg || !okBtn) return;
+
+    msg.innerHTML = message;
+    modal.classList.remove("hidden");
+
+    const close = () => {
+        modal.classList.add("hidden");
+        okBtn.removeEventListener("click", close);
+    };
+
+    okBtn.addEventListener("click", close);
+    modal.addEventListener("click", close);
+}
+
 // ================== HOME PAGE ==================
 let questionHistoryAll = [];
 let questionHistorySubject = {};
@@ -25,7 +44,7 @@ async function initHomePage() {
         }
 
         if (validSubjects.length === 0) {
-            alert("No subjects have at least 5 questions.");
+            showCustomAlert("No subjects have at least 5 questions.");
             return;
         }
 
@@ -80,7 +99,7 @@ async function initHomePage() {
 
         okBtn.onclick = async () => {
             if (selectedSubjects.size === 0) {
-                alert("Select at least one subject.");
+                showCustomAlert("Select at least one subject.");
                 return;
             }
 
@@ -151,8 +170,13 @@ async function showRandomQuestion(container, mode = "all", subjectIds = null) {
     displayQuestion(container, q, mode, subjectIds);
 }
 
+
+let lastQuestionCorrect = false;
+
 // Display question
 function displayQuestion(container, question, mode, subjectId) {
+
+
     container.innerHTML = `
         <div class="p-4 border rounded-md shadow-md dark:border-neutral-700 dark:bg-neutral-800">
             <h3 class="font-semibold mb-4 whitespace-pre-wrap">${question.questionText}</h3>
@@ -162,25 +186,25 @@ function displayQuestion(container, question, mode, subjectId) {
             </form>
         </div>
     `;
-
+    
     const form = document.getElementById("home-answer-form");
     const ansInput = form.querySelector("input");
 
-    // Auto-focus input when question loads
-    ansInput.focus();
-
+    if (lastQuestionCorrect) ansInput.focus();
+    
     form.onsubmit = async (e) => {
         e.preventDefault(); // Prevent page reload on Enter
 
         const userAnswer = ansInput.value.trim();
-        if (!userAnswer) return alert("Enter an answer!");
+        if (!userAnswer) return showCustomAlert("Enter an answer!");
 
         // Answer must match the case exactly
         // if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
         if (userAnswer === question.answer) {
-            console.log("Correct Answer");
+            lastQuestionCorrect = true;
         } else {
-            alert(`Wrong! Correct answer: ${question.answer}`);
+            lastQuestionCorrect = false;
+            showCustomAlert(`Wrong! Correct answer:<br><b><u>${question.answer}</u></b>`);
         }
 
         // Move to next question automatically
@@ -207,13 +231,13 @@ async function populateSubjects() {
 
         input.onchange = async () => {
             const newName = input.value.trim();
-            if (!newName) return alert("Name cannot be empty");
+            if (!newName) return showCustomAlert("Name cannot be empty");
 
             const allSubjects = await getSubjects();
             const duplicate = allSubjects.some(s => s.name.toLowerCase() === newName.toLowerCase() && s.id !== subject.id);
 
             if (duplicate) {
-                alert("A subject with this name already exists!");
+                showCustomAlert("A subject with this name already exists!");
                 input.value = subject.name;
                 return;
             }
@@ -246,7 +270,7 @@ function initSubjectsPage() {
 
     addBtn.onclick = async () => {
         const name = input.value.trim();
-        if (!name) return alert("Enter a subject name");
+        if (!name) return showCustomAlert("Enter a subject name");
         try {
             await addSubject(name);
             input.value = "";
@@ -349,13 +373,13 @@ function setupQuestionModal() {
 
     saveBtn.onclick = async () => {
         const subjectId = Number(document.getElementById("subject-select").value);
-        if (!subjectId) return alert("Select a subject first");
+        if (!subjectId) return showCustomAlert("Select a subject first");
 
         const questionText = document.getElementById("question-text").value.trim();
-        if (!questionText) return alert("Enter a question");
+        if (!questionText) return showCustomAlert("Enter a question");
 
         const answerText = document.getElementById("answer-text").value.trim();
-        if (!answerText) return alert("Enter an answer");
+        if (!answerText) return showCustomAlert("Enter an answer");
 
         if (editingQuestionId) {
             await updateQuestion(editingQuestionId, questionText, answerText);
