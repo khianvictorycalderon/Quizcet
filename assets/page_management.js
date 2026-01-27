@@ -10,6 +10,12 @@ function setPage(page, updateURL = true) {
     const content = document.getElementById("page-content");
     content.innerHTML = pages[page] ?? pages["home"];
 
+    // Scroll to top
+    window.scrollTo({
+       top: 0,
+       behavior: "smooth"
+    });
+
     // Initialize page-specific UI AFTER content is in DOM
     if (page === "home") initHomePage(); // ✅ add this
     if (page === "subjects") initSubjectsPage();
