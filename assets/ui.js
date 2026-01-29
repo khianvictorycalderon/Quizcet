@@ -199,16 +199,33 @@ function displayQuestion(container, question, mode, subjectId) {
         if (!userAnswer) return showCustomAlert("Enter an answer!");
 
         // Answer must match the case exactly
-        // if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
         if (userAnswer === question.answer) {
             lastQuestionCorrect = true;
+            await showRandomQuestion(container, mode, subjectId); // correct -> next immediately
         } else {
             lastQuestionCorrect = false;
-            showCustomAlert(`Wrong! Correct answer:<br><b><u>${question.answer}</u></b>`);
-        }
 
-        // Move to next question automatically
-        await showRandomQuestion(container, mode, subjectId);
+            // Show alert and wait for it to close before moving on
+            await new Promise((resolve) => {
+                const modal = document.getElementById("custom-alert");
+                const okBtn = document.getElementById("custom-alert-ok");
+                const msg = document.getElementById("custom-alert-message");
+
+                msg.innerHTML = `Wrong! Correct answer:<br><b><u>${question.answer}</u></b>`;
+                modal.classList.remove("hidden");
+
+                const close = () => {
+                    modal.classList.add("hidden");
+                    okBtn.removeEventListener("click", close);
+                    resolve(); // allow next question
+                };
+
+                okBtn.addEventListener("click", close);
+            });
+
+            // After alert closes, show next question
+            await showRandomQuestion(container, mode, subjectId);
+        }
     };
 }
 
