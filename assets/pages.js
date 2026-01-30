@@ -22,7 +22,7 @@ const pages = {
             </div>
         
             <div id="home-controls" class="text-center space-y-6 mb-8">
-                <h2 class="font-extrabold text-xl md:text-2xl lg:text-4xl">Start Reviewing!</h2>
+                <h2 id="start-review-label" class="font-extrabold text-xl md:text-2xl lg:text-4xl">Start Reviewing!</h2>
                 <div class="flex flex-col md:flex-row gap-4 justify-center">
                     <button id="review-all-sub-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-300">
                         Review All Subjects

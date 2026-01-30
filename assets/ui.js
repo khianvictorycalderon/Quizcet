@@ -23,6 +23,10 @@ function showCustomAlert(message) {
 let questionHistoryAll = [];
 let questionHistorySubject = {};
 
+function hideElement(element) {
+    const el = document.getElementById(element).style.display = "none";
+}
+
 async function initHomePage() {
     const reviewAllSubButton = document.getElementById("review-all-sub-btn");
     const reviewSubsButton = document.getElementById("review-subs-btn");
@@ -32,9 +36,11 @@ async function initHomePage() {
 
     reviewAllSubButton.onclick = async () => {
         await showRandomQuestion(container, "all");
+        hideElement("start-review-label"); // Hide the start review label
     };
 
     reviewSubsButton.onclick = async () => {
+        hideElement("start-review-label"); // Hide the start review label
         const subjects = await getSubjects();
         const validSubjects = [];
 
