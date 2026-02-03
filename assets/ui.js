@@ -241,6 +241,10 @@ async function populateSubjects() {
     if (!container) return;
 
     const subjects = await getSubjects();
+
+    // Sort alphabetically by name
+    subjects.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+
     container.innerHTML = "";
 
     subjects.forEach(subject => {
@@ -313,6 +317,10 @@ async function populateSubjectSelect() {
     if (!select) return;
 
     const subjects = await getSubjects();
+
+    // Sort alphabetically
+    subjects.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+
     select.innerHTML = `<option value="">-- Choose Subject --</option>`;
     subjects.forEach(sub => {
         const opt = document.createElement("option");

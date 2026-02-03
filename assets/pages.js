@@ -49,9 +49,9 @@ const pages = {
             <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Questions:</h2>
             
             <div class="flex flex-row gap-2 mb-4 max-w-xl">
-                <select id="subject-select" class="flex-1 p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
-                    <option value="">-- Choose Subject --</option>
-                </select>
+                <select id="subject-select" class="flex-1 p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white w-[100px] md:w-[200px] lg:w-auto truncate" title="">
+    			<option value="">-- Choose Subject --</option>
+		</select>
                 <button id="add-question-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Question</button>
             </div>
 
