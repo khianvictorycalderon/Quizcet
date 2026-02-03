@@ -436,7 +436,6 @@ function setupQuestionModal() {
 
     saveBtn.onclick = async () => {
         const subjectId = Number(document.getElementById("subject-select").value);
-        if (!subjectId) return showCustomAlert("Select a subject first");
 
         const questionText = document.getElementById("question-text").value.trim();
         if (!questionText) return showCustomAlert("Enter a question");
@@ -453,7 +452,6 @@ function setupQuestionModal() {
         modal.classList.add("hidden");
         populateQuestions();
     };
-
 }
 
 function initQuestionsPage() {
@@ -463,9 +461,24 @@ function initQuestionsPage() {
 
     populateSubjectSelect().then(() => populateQuestions());
 
+    // Open question modal only if a subject is selected
+    addBtn.onclick = () => {
+        const subjectId = Number(select.value);
+        if (!subjectId) return showCustomAlert("Select a subject first");
+        openQuestionModal(); // open empty modal for adding new question
+    };
+
     select.onchange = populateQuestions;
-    addBtn.onclick = () => openQuestionModal();
     setupQuestionModal();
+}
+
+async function clearSubjectSearchInput() {
+    const input = document.getElementById("subject-search");
+    input.value = "";
+    input.dataset.id = "";
+    questionQueue = [];
+    lastQuestionId = null;
+    await populateQuestions();
 }
 
 // ================== INIT ==================
@@ -486,15 +499,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const file = e.target.files[0];
         await importSubjects(file);
         e.target.value = ""; // Reset input
-    });
-
-    document.getElementById("clear-question-btn")?.addEventListener("click", async () => {
-        const input = document.getElementById("subject-search");
-        if (input) {
-            input.value = "";
-            input.dataset.id = "";
-            await populateQuestions();
-        }
     });
 
 });

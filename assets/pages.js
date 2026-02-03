@@ -66,7 +66,7 @@ const pages = {
                     <select id="subject-select" class="hidden"></select>
                 </div>
                 <div class="flex flex-row gap-2">
-                    <button id="clear-question-btn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500">Clear</button>
+                    <button onclick="clearSubjectSearchInput();" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500">Clear</button>
                     <button id="add-question-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Question</button>
                 </div>
             </div>
