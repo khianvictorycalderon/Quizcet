@@ -48,7 +48,7 @@ const pages = {
         <div class="px-4 md:px-8 lg:px-16 pb-16 min-h-screen pt-24">
             <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Questions:</h2>
             
-            <div class="flex flex-row gap-2 mb-4 max-w-xl">
+            <div class="flex flex-col lg:flex-row gap-2 mb-4 max-w-xl">
                 <div class="relative flex-1 max-w-xs">
                     <!-- Searchable input -->
                     <input 
@@ -65,7 +65,10 @@ const pages = {
                     <!-- Hidden select for fallback / forms -->
                     <select id="subject-select" class="hidden"></select>
                 </div>
-                <button id="add-question-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Question</button>
+                <div class="flex flex-row gap-2">
+                    <button id="clear-question-btn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500">Clear</button>
+                    <button id="add-question-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Question</button>
+                </div>
             </div>
 
             <div id="questions-list" class="flex flex-col gap-2 mb-8"></div>

@@ -481,10 +481,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const initialPage = getPageFromURL();
     setPage(initialPage, false);
-});
 
-document.getElementById("import-file")?.addEventListener("change", async (e) => {
-    const file = e.target.files[0];
-    await importSubjects(file);
-    e.target.value = ""; // Reset input
+    document.getElementById("import-file")?.addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        await importSubjects(file);
+        e.target.value = ""; // Reset input
+    });
+
+    document.getElementById("clear-question-btn")?.addEventListener("click", async () => {
+        const input = document.getElementById("subject-search");
+        if (input) {
+            input.value = "";
+            input.dataset.id = "";
+            await populateQuestions();
+        }
+    });
+
 });
