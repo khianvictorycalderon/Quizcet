@@ -6,7 +6,8 @@ const pages = {
 
             <!-- Select Subject Modal -->
             <div id="select-subject-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                <div class="bg-white dark:bg-neutral-900 p-6 rounded-lg w-full max-w-md">
+		<div class="bg-white dark:bg-neutral-900 p-6 rounded-lg w-full max-w-md md:max-w-lg lg:max-w-2xl">
+
                     <h3 class="text-lg font-bold mb-4 text-purple-600 dark:text-purple-400">Select a Subject</h3>
                     
                     <input type="text" id="select-subject-input" placeholder="Type subject name..." 
