@@ -313,14 +313,46 @@ function initSubjectsPage() {
 
 // ================== QUESTIONS ==================
 async function populateSubjectSelect() {
+    const input = document.getElementById("subject-search");
+    const dropdown = document.getElementById("subject-dropdown");
     const select = document.getElementById("subject-select");
-    if (!select) return;
 
-    const subjects = await getSubjects();
+    if (!input || !dropdown || !select) return;
 
-    // Sort alphabetically
+    let subjects = await getSubjects();
     subjects.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
+    function updateDropdown(filter = "") {
+        dropdown.innerHTML = "";
+
+        const filtered = subjects.filter(sub => sub.name.toLowerCase().includes(filter.toLowerCase()));
+        filtered.forEach(sub => {
+            const li = document.createElement("li");
+            li.textContent = sub.name;
+            li.className = "p-2 cursor-pointer hover:bg-purple-500 hover:text-white truncate";
+            li.title = sub.name;
+
+            li.onclick = () => {
+                input.value = sub.name;
+                input.dataset.id = sub.id;
+                select.value = sub.id; // update hidden select
+                dropdown.classList.add("hidden");
+                populateQuestions(); // refresh questions for selected subject
+            };
+
+            dropdown.appendChild(li);
+        });
+
+        dropdown.classList.toggle("hidden", filtered.length === 0);
+    }
+
+    updateDropdown();
+
+    input.addEventListener("input", (e) => updateDropdown(e.target.value));
+    input.addEventListener("focus", () => updateDropdown(input.value));
+    input.addEventListener("blur", () => setTimeout(() => dropdown.classList.add("hidden"), 200));
+
+    // Populate hidden select (for forms or fallback)
     select.innerHTML = `<option value="">-- Choose Subject --</option>`;
     subjects.forEach(sub => {
         const opt = document.createElement("option");
@@ -335,7 +367,7 @@ async function populateQuestions() {
     const select = document.getElementById("subject-select");
     if (!list || !select) return;
 
-    const subjectId = Number(select.value);
+    const subjectId = Number(document.getElementById("subject-search").dataset.id);
     if (!subjectId) {
         list.innerHTML = "";
         return;

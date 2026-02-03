@@ -49,9 +49,22 @@ const pages = {
             <h2 class="text-lg md:text-2xl lg:text-4xl font-bold mb-4">Questions:</h2>
             
             <div class="flex flex-row gap-2 mb-4 max-w-xl">
-                <select id="subject-select" class="flex-1 p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white w-[100px] md:w-[200px] lg:w-auto truncate" title="">
-                        <option value="">-- Choose Subject --</option>
-                </select>
+                <div class="relative flex-1 max-w-xs">
+                    <!-- Searchable input -->
+                    <input 
+                        type="text" 
+                        id="subject-search" 
+                        placeholder="Choose Subject..." 
+                        class="w-full p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white truncate"
+                        autocomplete="off"
+                    />
+
+                    <!-- Dropdown list -->
+                    <ul id="subject-dropdown" class="absolute z-50 w-full max-h-48 overflow-y-auto border rounded bg-white dark:bg-neutral-800 hidden"></ul>
+
+                    <!-- Hidden select for fallback / forms -->
+                    <select id="subject-select" class="hidden"></select>
+                </div>
                 <button id="add-question-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Question</button>
             </div>
 
