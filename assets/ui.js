@@ -463,9 +463,15 @@ function initQuestionsPage() {
 
     // Open question modal only if a subject is selected
     addBtn.onclick = () => {
-        const subjectId = Number(select.value);
-        if (!subjectId) return showCustomAlert("Select a subject first");
-        openQuestionModal(); // open empty modal for adding new question
+        const input = document.getElementById("subject-search");
+        const subjectId = Number(input.dataset.id); // <- check the actual selected subject
+
+        if (!subjectId) {
+            return showCustomAlert("Select a subject first");
+        }
+
+        // open empty modal for adding new question
+        openQuestionModal();
     };
 
     select.onchange = populateQuestions;
