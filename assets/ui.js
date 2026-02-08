@@ -49,6 +49,10 @@ async function initHomePage() {
             if (qs.length >= 5) validSubjects.push(s);
         }
 
+        validSubjects.sort((a, b) =>
+            a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+        );
+
         if (validSubjects.length === 0) {
             showCustomAlert("No subjects have at least 5 questions.");
             return;
