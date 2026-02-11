@@ -46,7 +46,7 @@ async function initHomePage() {
 
         for (const s of subjects) {
             const qs = await getQuestionsBySubject(s.id);
-            if (qs.length >= 5) validSubjects.push(s);
+            if (qs.length >= 3) validSubjects.push(s);
         }
 
         validSubjects.sort((a, b) =>
@@ -54,7 +54,7 @@ async function initHomePage() {
         );
 
         if (validSubjects.length === 0) {
-            showCustomAlert("No subjects have at least 5 questions.");
+            showCustomAlert("No subjects have at least 3 questions.");
             return;
         }
 
@@ -139,23 +139,23 @@ async function showRandomQuestion(container, mode = "all", subjectIds = null) {
         const subjects = await getSubjects();
         for (const s of subjects) {
             const qs = await getQuestionsBySubject(s.id);
-            if (qs.length >= 5) questions.push(...qs);
+            if (qs.length >= 3) questions.push(...qs);
         }
         if (questions.length === 0) {
-            showCustomAlert("No subjects have at least 5 questions.");
+            showCustomAlert("No subjects have at least 3 questions.");
             return;
         }
     } else if (mode === "subject") {
         const qs = await getQuestionsBySubject(subjectIds); // old single subject
-        if (qs.length < 5) {
-            container.innerHTML = `<p class="text-red-500">This subject must have at least 5 questions.</p>`;
+        if (qs.length < 3) {
+            container.innerHTML = `<p class="text-red-500">This subject must have at least 3 questions.</p>`;
             return;
         }
         questions = qs;
     } else if (mode === "multiple") {
         for (const id of subjectIds) {
             const qs = await getQuestionsBySubject(id);
-            if (qs.length >= 5) questions.push(...qs);
+            if (qs.length >= 3) questions.push(...qs);
         }
         if (questions.length === 0) {
             container.innerHTML = `<p class="text-red-500">Selected subjects do not have enough questions.</p>`;

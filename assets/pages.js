@@ -168,7 +168,7 @@ const pages = {
             <section>
                 <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Tips</h3>
                 <ul class="list-disc list-inside space-y-2 text-neutral-800 dark:text-neutral-300">
-                    <li>Ensure each subject has at least 5 questions for review mode.</li>
+                    <li>Ensure each subject has at least 3 questions for review mode.</li>
                     <li>Use clear questions and answers for effective self-review.</li>
                     <li>Remove old subjects and questions periodically to stay organized.</li>
                 </ul>

@@ -1,5 +1,5 @@
 # Quizcet: RSQ *(Review Self-Quiz)*
-A web-based review self quiz system that let's you create questions and mock tests and quizzes.
+A web-based review self quiz system that let's you create questions yourself and simulate exams and quizzes.
 
 ## Purpose
 Initially developed for my personal use of reviewing lessons in college.
