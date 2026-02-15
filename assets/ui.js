@@ -200,8 +200,8 @@ function displayQuestion(container, question, mode, subjectId) {
     const form = document.getElementById("home-answer-form");
     const ansInput = form.querySelector("input");
 
-    if (lastQuestionCorrect) ansInput.focus();
-    
+    setTimeout(() => ansInput.focus(), 0);
+
     form.onsubmit = async (e) => {
         e.preventDefault(); // Prevent page reload on Enter
 
@@ -215,7 +215,8 @@ function displayQuestion(container, question, mode, subjectId) {
         } else {
             lastQuestionCorrect = false;
 
-            // Show alert and wait for it to close before moving on
+            ansInput.blur();
+
             await new Promise((resolve) => {
                 const modal = document.getElementById("custom-alert");
                 const okBtn = document.getElementById("custom-alert-ok");
@@ -227,13 +228,18 @@ function displayQuestion(container, question, mode, subjectId) {
                 const close = () => {
                     modal.classList.add("hidden");
                     okBtn.removeEventListener("click", close);
-                    resolve(); // allow next question
+                    window.removeEventListener("keydown", handleEnter);
+                    resolve();
+                };
+
+                const handleEnter = (e) => {
+                    if (e.key === "Enter") close();
                 };
 
                 okBtn.addEventListener("click", close);
+                window.addEventListener("keydown", handleEnter);
             });
 
-            // After alert closes, show next question
             await showRandomQuestion(container, mode, subjectId);
         }
     };
