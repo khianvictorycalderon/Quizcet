@@ -71,6 +71,9 @@ async function importSubjects(file) {
                 if (!duplicate) {
                     await addQuestion(subjectId, q.questionText, q.answer);
                 }
+
+                // Force remove any duplicates after import
+                await removeDuplicateQuestions(subjectId);
             }
 
         } catch (e) {
@@ -172,4 +175,20 @@ async function importSubjectsFromText() {
     if (document.getElementById("subjects-list")) await populateSubjects();
     if (document.getElementById("subject-select")) await populateSubjectSelect();
     if (document.getElementById("questions-list")) await populateQuestions();
+}
+
+// ================ MISC =============================
+// Remove duplicate questions by questionText for a subject
+async function removeDuplicateQuestions(subjectId) {
+    const questions = await getQuestions(subjectId);
+    const seen = new Set();
+
+    for (const q of questions) {
+        if (seen.has(q.questionText)) {
+            await deleteQuestion(q.id); // delete duplicate
+            console.log("Deleted duplicate question:", q.questionText);
+        } else {
+            seen.add(q.questionText);
+        }
+    }
 }

@@ -163,7 +163,6 @@ async function showRandomQuestion(container, mode = "all", subjectIds = null) {
         }
     }
 
-    // Initialize or refill the queue if empty
     if (questionQueue.length === 0 || questionQueue.every(q => q.used)) {
         questionQueue = questions.map(q => ({ ...q, used: false }));
     }
@@ -382,6 +381,9 @@ async function populateQuestions() {
         list.innerHTML = "";
         return;
     }
+
+    // Remove duplicates before displaying
+    await removeDuplicateQuestions(subjectId);
 
     const questions = await getQuestions(subjectId);
     list.innerHTML = "";
