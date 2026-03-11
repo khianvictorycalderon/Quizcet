@@ -388,7 +388,7 @@ async function populateQuestions() {
     const questions = await getQuestions(subjectId);
     list.innerHTML = "";
 
-    questions.forEach(q => {
+    questions.reverse().forEach(q => {
         const div = document.createElement("div");
         div.className = "flex flex-col p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white";
 
