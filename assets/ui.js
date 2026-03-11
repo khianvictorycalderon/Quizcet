@@ -389,7 +389,7 @@ async function populateQuestions() {
     list.innerHTML = "";
 
     // Display how many questions:
-    document.getElementById("question-count-label").innerHTML = `${questions.length} Question${questions.length > 1 && "s"}`
+    document.getElementById("question-count-label").innerHTML = `${questions.length} Question${questions.length > 1 ? "s" : ""}`
 
     questions.reverse().forEach(q => {
         const div = document.createElement("div");
