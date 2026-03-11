@@ -388,6 +388,9 @@ async function populateQuestions() {
     const questions = await getQuestions(subjectId);
     list.innerHTML = "";
 
+    // Display how many questions:
+    document.getElementById("question-count-label").innerHTML = `${questions.length} Question${questions.length > 1 && "s"}`
+
     questions.reverse().forEach(q => {
         const div = document.createElement("div");
         div.className = "flex flex-col p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white";
@@ -492,6 +495,7 @@ function initQuestionsPage() {
 
 async function clearSubjectSearchInput() {
     const input = document.getElementById("subject-search");
+    document.getElementById("question-count-label").innerHTML = "";
     input.value = "";
     input.dataset.id = "";
     questionQueue = [];

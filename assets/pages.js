@@ -66,9 +66,10 @@ const pages = {
                     <!-- Hidden select for fallback / forms -->
                     <select id="subject-select" class="hidden"></select>
                 </div>
-                <div class="flex flex-row gap-2">
+                <div class="flex flex-row gap-2 items-center">
                     <button onclick="clearSubjectSearchInput();" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500">Clear</button>
                     <button id="add-question-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Add Question</button>
+                    <p id="question-count-label" class="text-sm italic text-neutral-600 dark:text-neutral-500"></p>
                 </div>
             </div>
 
