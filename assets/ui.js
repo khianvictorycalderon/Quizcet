@@ -187,7 +187,7 @@ function displayQuestion(container, question, mode, subjectId) {
 
 
     container.innerHTML = `
-        <div class="p-4 border rounded-md shadow-md dark:border-neutral-700 dark:bg-neutral-800">
+        <div class="p-4 border rounded-md shadow-md bg-neutral-100 border-neutral-400 dark:border-neutral-600 dark:bg-neutral-800">
             <h3 class="font-semibold mb-4 whitespace-pre-wrap">${question.questionText}</h3>
             <form id="home-answer-form" class="flex flex-col gap-2">
                 <input type="text" placeholder="Type your answer here..." class="w-full p-2 border rounded dark:border-neutral-700 dark:bg-neutral-900 dark:text-white" required />
