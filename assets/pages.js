@@ -142,11 +142,17 @@ const pages = {
                 <ul class="list-disc list-inside space-y-2 text-neutral-800 dark:text-neutral-300">
                     <li>
                         <span class="font-semibold text-green-600 dark:text-green-400">File-based:</span> 
-                        Go to Settings → <span class="bg-green-500 text-white px-2 py-1 rounded">Export Subjects to JSON File</span> to download a JSON file, or <span class="bg-blue-500 text-white px-2 py-1 rounded">Import Subjects from JSON File</span> to import.
+                        Go to Settings → 
+                        <span class="bg-green-500 text-white px-2 py-1 rounded">Export All Subjects to JSON File</span> to download all subjects,
+                        or <span class="bg-green-500 text-white px-2 py-1 rounded">Export Selected Subjects</span> to choose specific subjects,
+                        and <span class="bg-blue-500 text-white px-2 py-1 rounded">Import Subjects from JSON File</span> to import.
                     </li>
                     <li>
                         <span class="font-semibold text-green-600 dark:text-green-400">Text-based:</span> 
-                        Go to Settings → <span class="bg-green-500 text-white px-2 py-1 rounded">Export Subjects (Copy to Clipboard)</span> to copy JSON text, or <span class="bg-blue-500 text-white px-2 py-1 rounded">Import Subjects from JSON String</span> to paste JSON text directly using a prompt.
+                        Go to Settings → 
+                        <span class="bg-green-500 text-white px-2 py-1 rounded">Export All Subjects (Copy to Clipboard)</span> to copy all subjects,
+                        or <span class="bg-green-500 text-white px-2 py-1 rounded">Export Selected Subjects (Copy to Clipboard)</span> to copy only selected subjects,
+                        and <span class="bg-blue-500 text-white px-2 py-1 rounded">Import Subjects from JSON String</span> to paste JSON text directly using a prompt.
                     </li>
                 </ul>
             </section>
