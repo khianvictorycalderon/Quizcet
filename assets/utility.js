@@ -2,6 +2,9 @@
 async function exportSubjects() {
     const subjects = await getSubjects();
 
+    // Sort subjects alphabetically by name
+    subjects.sort((a, b) => a.name.localeCompare(b.name));
+
     const data = [];
     for (const subject of subjects) {
         const questions = await getQuestionsBySubject(subject.id);
@@ -103,6 +106,9 @@ async function clearAllData() {
 // ================== EXPORT (Text) ==================
 async function exportSubjectsAsText() {
     const subjects = await getSubjects();
+
+    // Sort subjects alphabetically by name
+    subjects.sort((a, b) => a.name.localeCompare(b.name));
 
     const data = [];
     for (const subject of subjects) {
