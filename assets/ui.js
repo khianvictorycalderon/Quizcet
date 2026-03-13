@@ -393,7 +393,7 @@ async function populateQuestions() {
 
     questions.reverse().forEach(q => {
         const div = document.createElement("div");
-        div.className = "flex flex-col p-2 border rounded dark:border-neutral-700 dark:bg-neutral-800 dark:text-white";
+        div.className = "flex flex-col p-2 border rounded border-neutral-400 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white";
 
         const text = document.createElement("div");
         text.textContent = q.questionText;
