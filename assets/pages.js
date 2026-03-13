@@ -196,7 +196,11 @@ const pages = {
                 <h2 class="text-xl md:text-2xl font-semibold text-green-600 dark:text-green-400">Import / Export (File)</h2>
                 <div class="flex flex-col md:flex-row gap-4">
                     <button onclick="exportSubjects()" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 shadow transition">
-                        Export Subjects to JSON File
+                        Export All Subjects
+                    </button>
+
+                    <button onclick="exportSelectedSubjects()" class="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 shadow transition">
+                        Export Selected Subjects
                     </button>
 
                     <input type="file" id="import-file" class="hidden" accept="application/json" />
@@ -213,7 +217,11 @@ const pages = {
                 <h2 class="text-xl md:text-2xl font-semibold text-green-600 dark:text-green-400">Import / Export (Text)</h2>
                 <div class="flex flex-col md:flex-row gap-4">
                     <button onclick="exportSubjectsAsText();" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 shadow transition">
-                        Export Subjects (Copy to Clipboard)
+                        Export All Subjects (Copy to Clipboard)
+                    </button>
+
+                    <button onclick="exportSelectedSubjectsAsText()" class="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 shadow transition">
+                        Export Selected Subjects (Copy to Clipboard)
                     </button>
 
                     <button onclick="importSubjectsFromText();" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 shadow transition">
